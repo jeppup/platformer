@@ -10,6 +10,8 @@ import android.view.SurfaceView;
 
 /**
  * Created by Jesper on 2017-02-18.
+ * Player art: https://bakudas.itch.io/generic-platformer-pack
+ * World tiles: http://opengameart.org/content/nature-tileset
  */
 
 public class GameView extends SurfaceView implements Runnable{
@@ -23,6 +25,7 @@ public class GameView extends SurfaceView implements Runnable{
     Context mContext = null;
     Paint mPaint = null;
     Viewport mCamera = null;
+    LevelManager mLevelManager;
     private static final int METERS_TO_SHOW_X = 32;
     private static final int METERS_TO_SHOW_Y = 18;
     private static final int STAGE_WIDTH = 1920/3;
@@ -48,7 +51,11 @@ public class GameView extends SurfaceView implements Runnable{
 
         mCamera = new Viewport(screenWidth, screenHeight, METERS_TO_SHOW_X, METERS_TO_SHOW_Y);
         //Setup viewport(stageWidth, stageHeight)
-        //LoadLevel("LevelName")
+        loadLevel("LevelName");
+    }
+
+    private void loadLevel(String levelName){
+        mLevelManager = new LevelManager(mContext, mCamera.getPixelsPerMetreX(), levelName);
     }
 
     public void pause(){
