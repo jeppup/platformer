@@ -13,9 +13,9 @@ import java.util.ArrayList;
 public class LevelManager {
     private final static String TAG = "LevelManager";
     private Bitmap[] mBitmaps;
-    private ArrayList<GameObject> mGameObjects;
+    public ArrayList<GameObject> mGameObjects;
     private LevelData mData;
-    private Player mPlayer;
+    public Player mPlayer;
 
     public LevelManager(Context context, int pixelsPerMeter, String levelName){
         switch (levelName){
@@ -57,10 +57,11 @@ public class LevelManager {
         GameObject o = null;
         switch (tileType){
             case 1:
-                o = new GroundTile(x, y, tileType);
+                mPlayer = new Player(x, y, tileType);
+                o = mPlayer;
                 break;
             case 2:
-                o = new Player(x, y, tileType);
+                o = new GroundTile(x, y, tileType);
                 break;
             default:
                 Log.d(TAG, "Unknown tileType: " + tileType);

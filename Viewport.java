@@ -1,5 +1,6 @@
 package com.example.jesper.platformer;
 
+import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.Rect;
 
@@ -23,17 +24,19 @@ public class Viewport {
 
     private final static int BUFFER = 2;
 
-    public Viewport(final int screenWidth, final int screenHeight, final int metresToShowX, final int metresToShowY){
+    public Viewport(final int screenWidth, final int screenHeight, final int metersToShowX, final int metersToShowY){
         mScreenXResolution = screenWidth;
         mScreenYResolution = screenHeight;
         mScreenCentreX = mScreenXResolution / 2;
         mScreenCentreY = mScreenYResolution / 2;
-        mPixelsPerMetreX = mScreenXResolution / metresToShowX;
-        mPixelsPerMetreY = mScreenYResolution / metresToShowY;
-        mMetresToShowX = metresToShowX + BUFFER;
-        mMetresToShowY = metresToShowY + BUFFER;
+        mPixelsPerMetreX = mScreenXResolution / metersToShowX;
+        mPixelsPerMetreY = mScreenYResolution / metersToShowY;
+        mMetresToShowX = metersToShowX;
+        mMetresToShowY = metersToShowY;
         mHalfDistX = (mMetresToShowX / 2);
         mHalfDistY = (mMetresToShowY / 2);
+        mMetresToShowX = metersToShowX + BUFFER;
+        mMetresToShowY = metersToShowY + BUFFER;
         mCurrentViewportWorldCentre = new PointF(0,0);
     }
 
@@ -66,11 +69,18 @@ public class Viewport {
         out.set(left, top, right, bottom);
     }
 
+    public void worldToScreen(final PointF worldPos, Point screenPos){
+        screenPos.x = (int)(mScreenCentreX - ((mCurrentViewportWorldCentre.x - worldPos.x) * mPixelsPerMetreX));
+        screenPos.y = (int)(mScreenCentreY - ((mCurrentViewportWorldCentre.y - worldPos.y) * mPixelsPerMetreY));
+
+        //point.set((int)(worldPos.x * mPixelsPerMetreX), (int)(worldPos.y * mPixelsPerMetreY));
+    }
+
     public boolean inView(final PointF worldPos, final float objectWidth, final float objectHeight) {
         float maxX = (mCurrentViewportWorldCentre.x + mHalfDistX);
-        float minX = (mCurrentViewportWorldCentre.x - mHalfDistX)-objectWidth;
+        float minX = (mCurrentViewportWorldCentre.x - mHalfDistX) - objectWidth;
         float maxY = (mCurrentViewportWorldCentre.y + mHalfDistY);
-        float minY  = (mCurrentViewportWorldCentre.y - mHalfDistY)-objectHeight;
+        float minY  = (mCurrentViewportWorldCentre.y - mHalfDistY) - objectHeight;
         if((worldPos.x > minX && worldPos.x < maxX)
                 && (worldPos.y > minY && worldPos.y < maxY)){
             return true;

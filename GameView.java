@@ -1,9 +1,11 @@
 package com.example.jesper.platformer;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -56,6 +58,8 @@ public class GameView extends SurfaceView implements Runnable{
 
     private void loadLevel(String levelName){
         mLevelManager = new LevelManager(mContext, mCamera.getPixelsPerMetreX(), levelName);
+        mCamera.setWorldCentre(mLevelManager.mPlayer.mWorldLocation);
+
     }
 
     public void pause(){
@@ -82,7 +86,12 @@ public class GameView extends SurfaceView implements Runnable{
     }
 
     private void update(long dt){
-        //update GameObjects
+        for(GameObject go : mLevelManager.mGameObjects){
+            go.update(dt);
+            go.mVisible = mCamera.inView(go.mWorldLocation, go.mWidth, go.mHeight);
+        }
+
+        mCamera.setWorldCentre(mLevelManager.mPlayer.mWorldLocation);
     }
 
     private void render(){
@@ -91,8 +100,19 @@ public class GameView extends SurfaceView implements Runnable{
             return;
         }
 
+        Point screenCord = new Point();
         mCanvas.drawColor(BG_COLOR);
         mPaint.setColor(Color.WHITE);
+        for (GameObject go : mLevelManager.mGameObjects){
+            if(!go.mVisible){
+                continue;
+            }
+            mCamera.worldToScreen(go.mWorldLocation, screenCord);
+            Bitmap b = mLevelManager.getBitmap(go.mType);
+            mCanvas.drawBitmap(b, screenCord.x, screenCord.y, mPaint);
+        }
+
+
         if(mDebugging){
             doDebugDrawing();
         }
@@ -101,10 +121,18 @@ public class GameView extends SurfaceView implements Runnable{
     }
 
     private void doDebugDrawing(){
+        int y = 60;
+        int textSize = 10;
         mPaint.setTextAlign(Paint.Align.LEFT);
-        mPaint.setTextSize(36);
+        mPaint.setTextSize(textSize);
         mPaint.setColor(Color.WHITE);
-        mCanvas.drawText("FPS: " + mFrameTimer.getCurrentFps(), 10, 60, mPaint);
+        mCanvas.drawText("FPS: " + mFrameTimer.getCurrentFps(), 10, y, mPaint);
+        y += textSize;
+        mCanvas.drawText("Sprites: " + mLevelManager.mGameObjects.size(), 10, y, mPaint);
+        y += textSize;
+        mCanvas.drawText("Clipped: " + mCamera.getClipCount(), 10, y, mPaint);
+
+        mCamera.resetClipCount();
     }
 
     private boolean lockAndSetCanvas(){
