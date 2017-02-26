@@ -14,8 +14,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_main);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        mGameView = new GameView(this);
-        setContentView(mGameView);
+        hideSystemUI();
+        setContentView(R.layout.activity_main);
+        mGameView = (GameView)findViewById(R.id.gameView);
+        mGameView.setInputManager(new BasicInputManager(findViewById(R.id.keypad)));
+        //mGameView = new GameView(this);
+        //setContentView(mGameView);
     }
 
     @Override

@@ -16,8 +16,9 @@ public class LevelManager {
     public ArrayList<GameObject> mGameObjects;
     private LevelData mData;
     public Player mPlayer;
-
-    public LevelManager(Context context, int pixelsPerMeter, String levelName){
+    private GameView mEngine = null;
+    public LevelManager(final GameView engine, String levelName){
+        mEngine = engine;
         switch (levelName){
             default:
                 mData = new TestLevel();
@@ -26,14 +27,14 @@ public class LevelManager {
 
         mGameObjects = new ArrayList<>();
         mBitmaps = new Bitmap[mData.mTileCount];
-        loadMapAssets(context, pixelsPerMeter);
+        loadMapAssets();
     }
 
     public Bitmap getBitmap(int tileType){
         return mBitmaps[tileType];
     }
 
-    private void loadMapAssets(Context context, int pixelsPerMeter){
+    private void loadMapAssets(){
         int tileType;
         for(int y = 0; y < mData.mHeight; y++) {
             int width = mData.mTiles[y].length;
@@ -44,7 +45,7 @@ public class LevelManager {
                 }
                 GameObject temp = createGameObject(tileType, x, y);
                 if(temp != null){
-                    loadBitmap(context, temp, pixelsPerMeter);
+                    loadBitmap(mEngine.getContext(), temp, mEngine.getPixelsPerMeter());
                     mGameObjects.add(temp);
                 }
 
@@ -57,11 +58,11 @@ public class LevelManager {
         GameObject o = null;
         switch (tileType){
             case 1:
-                mPlayer = new Player(x, y, tileType);
+                mPlayer = new Player(mEngine, x, y, tileType);
                 o = mPlayer;
                 break;
             case 2:
-                o = new GroundTile(x, y, tileType);
+                o = new GroundTile(mEngine, x, y, tileType);
                 break;
             default:
                 Log.d(TAG, "Unknown tileType: " + tileType);
