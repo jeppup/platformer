@@ -12,6 +12,8 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import java.util.ArrayList;
+
 /**
  * Created by Jesper on 2017-02-18.
  * Player art: https://bakudas.itch.io/generic-platformer-pack
@@ -33,6 +35,7 @@ public class GameView extends SurfaceView implements Runnable{
     Viewport mCamera = null;
     LevelManager mLevelManager = null;
     InputManager mControl = null;
+    private static final ArrayList<GameObject> mActiveEntities = new ArrayList<GameObject>();
 
 
     private static final int METERS_TO_SHOW_X = 16;
@@ -40,9 +43,6 @@ public class GameView extends SurfaceView implements Runnable{
     private static final int STAGE_WIDTH = 1920/3;
     private static final int STAGE_HEIGHT = 1080/3;
     private static final boolean SCALE_CONTENT = true;
-
-    private PointF mCameraPos = new PointF(0,0);
-    private float mScrollSpeed = 2.0f; //meters per second
 
     private boolean mDebugging = true;
     private FrameTimer mFrameTimer;
@@ -90,10 +90,8 @@ public class GameView extends SurfaceView implements Runnable{
 
     private void loadLevel(String levelName){
         mLevelManager = new LevelManager(this, levelName);
-        mCameraPos.x = mLevelManager.mPlayer.mWorldLocation.x;
-        mCameraPos.y = mLevelManager.mPlayer.mWorldLocation.y;
-
         mCamera.setWorldCentre(mLevelManager.mPlayer.mWorldLocation);
+        mCamera.setTarget(mLevelManager.mPlayer);
     }
 
     public void pause(){
@@ -120,14 +118,32 @@ public class GameView extends SurfaceView implements Runnable{
     }
 
     private void update(float secondsPassed){
+        mActiveEntities.clear();
+        mCamera.update(secondsPassed);
         for(GameObject go : mLevelManager.mGameObjects){
             go.update(secondsPassed);
-            go.mVisible = mCamera.inView(go.mWorldLocation, go.mWidth, go.mHeight);
+            if(mCamera.inView(go.mWorldLocation, go.mWidth, go.mHeight)){
+                mActiveEntities.add(go);
+            }
         }
 
-        mCameraPos.x += (mControl.mHorizontalFactor * mScrollSpeed) * secondsPassed;
-        mCameraPos.y += (mControl.mVerticalFactor * mScrollSpeed) * secondsPassed;
-        mCamera.setWorldCentre(mCameraPos);
+        doCollisionChecks();
+    }
+
+    private void doCollisionChecks(){
+        Player player = mLevelManager.mPlayer;
+        int count = mActiveEntities.size();
+        GameObject a, b;
+        for(int i = 0; i < count-1; i++){
+            a = mActiveEntities.get(i);
+            for(int j = i+1; j < count; j++){
+                b = mActiveEntities.get(j);
+                if(a.isColliding(b)){
+                    a.onCollision(b);
+                    b.onCollision(a);
+                }
+            }
+        }
     }
 
     private void render(){
@@ -139,10 +155,8 @@ public class GameView extends SurfaceView implements Runnable{
         Point screenCord = new Point();
         mCanvas.drawColor(BG_COLOR);
         mPaint.setColor(Color.WHITE);
-        for (GameObject go : mLevelManager.mGameObjects){
-            if(!go.mVisible){
-                continue;
-            }
+        for (GameObject go : mActiveEntities){
+
             mCamera.worldToScreen(go.mWorldLocation, screenCord);
             Bitmap b = mLevelManager.getBitmap(go.mType);
             mCanvas.drawBitmap(b, screenCord.x, screenCord.y, mPaint);
@@ -166,7 +180,7 @@ public class GameView extends SurfaceView implements Runnable{
         y += textSize;
         mCanvas.drawText("Sprites: " + mLevelManager.mGameObjects.size(), 10, y, mPaint);
         y += textSize;
-        mCanvas.drawText("Clipped: " + mCamera.getClipCount(), 10, y, mPaint);
+        mCanvas.drawText("Clipped: " + (mLevelManager.mGameObjects.size() -  mActiveEntities.size()), 10, y, mPaint);
 
         y += textSize;
         mCanvas.drawText("[" + mControl.mHorizontalFactor + " : " + mControl.mVerticalFactor + " J: " + mControl.mIsJumping + "]", 10, y, mPaint);
