@@ -30,23 +30,16 @@ public class Player extends DynamicGameObject {
     private boolean mIsOnGround = false;
     private float mJumpTime = 0f;
     private int mFacing = RIGHT;
+    private AnimationManager mAnim = null;
 
-    private AnimationDrawable mAnim = null;
-    private int mFrameCount = 0;
-    private int mDuration = 0;
-    private long mCurrentAnimationTime = 0;
-    private int mCurrentFrame = 0;
 
     public Player(final GameView engine, final float x, final float y, final int type) {
         super(engine, x, y, type);
         mAcceleration.x = ACCEL_X;
         mAcceleration.y = ACCEL_Y;
+        mAnim = new AnimationManager(engine, R.drawable.player_anim, mWidth, mHeight);
 
-        mAnim = (AnimationDrawable) ContextCompat.getDrawable(engine.getContext(), R.drawable.player_anim);
-        mFrameCount = mAnim.getNumberOfFrames();
-        for(int i = 0; i < mFrameCount; i++){
-            mDuration += mAnim.getDuration(i);
-        }
+
     }
 
     @Override
@@ -82,29 +75,14 @@ public class Player extends DynamicGameObject {
         mTransform.postTranslate(GameObject.screenCord.x + offset, GameObject.screenCord.y);
 
 
-        Bitmap b = ((BitmapDrawable)mAnim.getFrame(mCurrentFrame)).getBitmap();
 
-        canvas.drawBitmap(b, mTransform, paint);
+        canvas.drawBitmap(mAnim.getCurrentBitmap(), mTransform, paint);
 
     }
 
     @Override
     public void update(float deltaTime){
-        long elapsedMillis = (long)(1000.0f * deltaTime);
-        mCurrentAnimationTime += elapsedMillis;
-        if(mCurrentAnimationTime > mDuration){
-            mCurrentAnimationTime = mCurrentAnimationTime % mDuration;
-        }
-
-        int frameDuration = 0;
-        for(int i = 0; i < mFrameCount; i++){
-            frameDuration += mAnim.getDuration(i);
-            if(frameDuration > mCurrentAnimationTime){
-                mCurrentFrame = i;
-                break;
-            }
-        }
-
+        mAnim.update(deltaTime);
         if(mVelocity.y != 0){
             mIsOnGround = false;
         }
