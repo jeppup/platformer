@@ -88,6 +88,14 @@ public class GameView extends SurfaceView implements Runnable{
         mControl = input;
     }
 
+    public Bitmap getBitmap(int tileType){
+        return mLevelManager.getBitmap(tileType);
+    }
+
+    public void setScreenCoordinate(final PointF worldLocation, Point screenCord){
+        mCamera.worldToScreen(worldLocation, screenCord);
+    }
+
     private void loadLevel(String levelName){
         mLevelManager = new LevelManager(this, levelName);
         mCamera.setWorldCentre(mLevelManager.mPlayer.mWorldLocation);
@@ -152,14 +160,12 @@ public class GameView extends SurfaceView implements Runnable{
             return;
         }
 
-        Point screenCord = new Point();
         mCanvas.drawColor(BG_COLOR);
         mPaint.setColor(Color.WHITE);
         for (GameObject go : mActiveEntities){
-
-            mCamera.worldToScreen(go.mWorldLocation, screenCord);
-            Bitmap b = mLevelManager.getBitmap(go.mType);
-            mCanvas.drawBitmap(b, screenCord.x, screenCord.y, mPaint);
+            //Bitmap b = mLevelManager.getBitmap(go.mType);
+            //mCanvas.drawBitmap(b, screenCord.x, screenCord.y, mPaint);
+            go.render(mCanvas, mPaint);
         }
 
 

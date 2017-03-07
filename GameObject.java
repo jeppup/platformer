@@ -3,6 +3,10 @@ package com.example.jesper.platformer;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.RectF;
 
@@ -10,9 +14,11 @@ import android.graphics.RectF;
  * Created by Jesper on 2017-02-18.
  */
 
-public abstract class GameObject {
+public class GameObject {
+    public static Point screenCord = new Point();
     public static final int HEIGHT = 1;
     public static final int WIDTH = 1;
+    final static float PRECISION = 100.0f;
     public RectF mBounds = new RectF(0.0f, 0.0f, WIDTH, HEIGHT);
 
     public PointF mWorldLocation = new PointF(0.f, 0.f);
@@ -20,6 +26,7 @@ public abstract class GameObject {
     public float mHeight = HEIGHT;
     public int mType = 0;
     public GameView mEngine = null;
+    protected Matrix mTransform = new Matrix();
 
     public GameObject(final GameView engine, final float x, final float y,
                       final float width, final float height, final int type){
@@ -39,6 +46,15 @@ public abstract class GameObject {
         mWorldLocation.x = x;
         mWorldLocation.y = y;
         updateBounds();
+    }
+
+    public void update(float deltaTime){};
+
+    public void render(Canvas canvas, Paint paint){
+        mTransform.reset();
+        mEngine.setScreenCoordinate(mWorldLocation, GameObject.screenCord);
+        mTransform.postTranslate(GameObject.screenCord.x, GameObject.screenCord.y);
+        canvas.drawBitmap(mEngine.getBitmap(mType), mTransform, paint);
     }
 
     public boolean isColliding(final GameObject objectToCheck){
@@ -76,6 +92,9 @@ public abstract class GameObject {
     }
 
     protected void updateBounds(){
+        mWorldLocation.x = Math.round(mWorldLocation.x * PRECISION) / PRECISION;
+        mWorldLocation.y = Math.round(mWorldLocation.y * PRECISION) / PRECISION;
+
         mBounds.left = mWorldLocation.x;
         mBounds.top = mWorldLocation.y;
         mBounds.right = mWorldLocation.x + mWidth;
@@ -83,7 +102,7 @@ public abstract class GameObject {
     }
 
 
-    public void update(float deltaTime){};
+
 
     public Bitmap prepareBitmap(Context context, String bitMapName, int pixelsPerMeter) throws Exception{
         int resId = context.getResources().getIdentifier(bitMapName, "drawable", context.getPackageName());

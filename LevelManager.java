@@ -48,8 +48,6 @@ public class LevelManager {
                     loadBitmap(mEngine.getContext(), temp, mEngine.getPixelsPerMeter());
                     mGameObjects.add(temp);
                 }
-
-
             }
         }
     }
@@ -61,11 +59,8 @@ public class LevelManager {
                 mPlayer = new Player(mEngine, x, y, tileType);
                 o = mPlayer;
                 break;
-            case 2:
-                o = new GroundTile(mEngine, x, y, tileType);
-                break;
             default:
-                Log.d(TAG, "Unknown tileType: " + tileType);
+                o = new GameObject(mEngine, x, y, tileType);
                 break;
         }
 

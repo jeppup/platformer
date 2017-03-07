@@ -11,6 +11,8 @@ public class DynamicGameObject extends GameObject {
     private static final float MAX_DELTA = 1.0f;
     private static final float MIN_DELTA = 0.01f;
     public PointF mVelocity = new PointF(0.0f, 0.0f);
+    public PointF mAcceleration = new PointF(0.0f, 0.0f);
+    public PointF mTargetSpeed = new PointF(0.0f, 0.0f);
     public float mFriction = 0.98f;
     public float mGravity = 0f;
 
@@ -26,6 +28,12 @@ public class DynamicGameObject extends GameObject {
     public void update(float deltaTime){
         mVelocity.x *= mFriction;
         mVelocity.y *= mFriction;
+
+        mVelocity.x += mAcceleration.x * mTargetSpeed.x;
+        if(Math.abs(mVelocity.x) > Math.abs(mTargetSpeed.x)){
+            mVelocity.x = mTargetSpeed.x;
+        }
+
         mVelocity.x = Utils.clamp(mVelocity.x, -MAX_DELTA, MAX_DELTA);
         mVelocity.y = Utils.clamp(mVelocity.y, -MAX_DELTA, MAX_DELTA);
         if(Math.abs(mVelocity.y) < MIN_DELTA){ mVelocity.y = 0; }
