@@ -13,9 +13,22 @@ public abstract class LevelData {
     public int mWidth;
     public int mTileCount;
 
-    protected int mTargetCount;
-    protected int mCollectedTargets;
+    protected void loadLevelVariables(){
+        mTileCount = countUniqueTiles();
+    }
 
+    protected int countTargets(){
+        int counter = 0;
+        for(int y = 0; y < mHeight; y++){
+            for(int x = 0; x < mWidth; x++){
+                if(mTiles[y][x] == 3){
+                    counter++;
+                }
+            }
+        }
+
+        return counter;
+    }
 
     protected int countUniqueTiles(){
         int tileType;
@@ -28,10 +41,6 @@ public abstract class LevelData {
         }
 
         return set.size();
-    }
-
-    public int getRemainingTargets(){
-        return 0;
     }
 
     public abstract String getBitmapName(int tileType);

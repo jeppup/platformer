@@ -34,7 +34,7 @@ public class TestLevel extends LevelData {
 
         mWidth = mTiles.length;
         mHeight = mTiles.length;
-        mTileCount = countUniqueTiles();
+        loadLevelVariables();
     }
 
     @Override

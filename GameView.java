@@ -182,6 +182,9 @@ public class GameView extends SurfaceView implements Runnable{
         y += textSize;
         mCanvas.drawText("[" + mControl.mHorizontalFactor + " : " + mControl.mVerticalFactor + " J: " + mControl.mIsJumping + "]", 10, y, mPaint);
 
+        y += textSize;
+        mCanvas.drawText("Collected " + Target.getCollectedCount() + " / " + Target.getTotalCount(), 10, y, mPaint);
+
         mCamera.resetClipCount();
     }
 
