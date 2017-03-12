@@ -14,7 +14,6 @@ public class DynamicGameObject extends GameObject {
     public PointF mAcceleration = new PointF(0.0f, 0.0f);
     public PointF mTargetSpeed = new PointF(0.0f, 0.0f);
     public float mFriction = 0.98f;
-    public float mGravity = 0f;
 
     public DynamicGameObject(GameView engine, float x, float y, float width, float height, int type) {
         super(engine, x, y, width, height, type);

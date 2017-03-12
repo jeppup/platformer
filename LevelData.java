@@ -13,6 +13,10 @@ public abstract class LevelData {
     public int mWidth;
     public int mTileCount;
 
+    protected int mTargetCount;
+    protected int mCollectedTargets;
+
+
     protected int countUniqueTiles(){
         int tileType;
         HashSet<Integer> set = new HashSet<>();
@@ -24,6 +28,10 @@ public abstract class LevelData {
         }
 
         return set.size();
+    }
+
+    public int getRemainingTargets(){
+        return 0;
     }
 
     public abstract String getBitmapName(int tileType);

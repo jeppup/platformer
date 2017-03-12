@@ -59,6 +59,9 @@ public class LevelManager {
                 mPlayer = new Player(mEngine, x, y, tileType);
                 o = mPlayer;
                 break;
+           case 3:
+                o = new Target(mEngine, x, y, tileType);
+                break;
             default:
                 o = new GameObject(mEngine, x, y, tileType);
                 break;

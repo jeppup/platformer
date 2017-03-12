@@ -16,14 +16,12 @@ import android.graphics.RectF;
 
 public class GameObject {
     public static Point screenCord = new Point();
-    public static final int HEIGHT = 1;
-    public static final int WIDTH = 1;
-    final static float PRECISION = 100.0f;
-    public RectF mBounds = new RectF(0.0f, 0.0f, WIDTH, HEIGHT);
+    protected Config mConfig;
+    public RectF mBounds;
 
     public PointF mWorldLocation = new PointF(0.f, 0.f);
-    public float mWidth = WIDTH;
-    public float mHeight = HEIGHT;
+    public float mWidth;
+    public float mHeight;
     public int mType = 0;
     public GameView mEngine = null;
     protected Matrix mTransform = new Matrix();
@@ -34,18 +32,21 @@ public class GameObject {
     }
 
     public GameObject(final GameView engine, final float x, final float y, final int type){
-        init(engine, x, y, WIDTH, HEIGHT, type);
+        init(engine, x, y, -1, -1, type);
     }
 
     private void init(final GameView engine, final float x, final float y,
                       final float width, final float height, final int type){
         mEngine = engine;
+        mConfig = engine.getConfig();
+        mHeight = height == -1 ? mConfig.GO_DEFAULT_HEIGHT : height;
+        mWidth = width == -1 ? mConfig.GO_DEFAULT_WIDTH : width;
+        mBounds = new RectF(0.0f, 0.0f, mWidth, mHeight);
         mType = type;
-        mHeight = height;
-        mWidth = width;
         mWorldLocation.x = x;
         mWorldLocation.y = y;
         updateBounds();
+
     }
 
     public void update(float deltaTime){};
@@ -92,8 +93,8 @@ public class GameObject {
     }
 
     protected void updateBounds(){
-        mWorldLocation.x = Math.round(mWorldLocation.x * PRECISION) / PRECISION;
-        mWorldLocation.y = Math.round(mWorldLocation.y * PRECISION) / PRECISION;
+        mWorldLocation.x = Math.round(mWorldLocation.x * mConfig.GO_PRECISION) / mConfig.GO_PRECISION;
+        mWorldLocation.y = Math.round(mWorldLocation.y * mConfig.GO_PRECISION) / mConfig.GO_PRECISION;
 
         mBounds.left = mWorldLocation.x;
         mBounds.top = mWorldLocation.y;

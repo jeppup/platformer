@@ -22,7 +22,6 @@ import java.util.ArrayList;
 
 public class GameView extends SurfaceView implements Runnable{
     private static final String TAG = "GameView";
-    private static final int BG_COLOR = Color.rgb(135, 206, 235);
 
     private volatile boolean mIsRunning = false;
     private Thread mGameThread = null;
@@ -30,19 +29,11 @@ public class GameView extends SurfaceView implements Runnable{
     private SurfaceHolder mSurfaceHolder;
     Context mContext = null;
     Paint mPaint = null;
-
-
     Viewport mCamera = null;
     LevelManager mLevelManager = null;
     InputManager mControl = null;
     private static final ArrayList<GameObject> mActiveEntities = new ArrayList<GameObject>();
-
-
-    private static final int METERS_TO_SHOW_X = 16;
-    private static final int METERS_TO_SHOW_Y = 9;
-    private static final int STAGE_WIDTH = 1920/3;
-    private static final int STAGE_HEIGHT = 1080/3;
-    private static final boolean SCALE_CONTENT = true;
+    private Config mConfig;
 
     private boolean mDebugging = true;
     private FrameTimer mFrameTimer;
@@ -64,6 +55,7 @@ public class GameView extends SurfaceView implements Runnable{
 
     private void init(Context context){
         mContext = context;
+        mConfig = new Config(context);
         mPaint = new Paint();
         mSurfaceHolder = getHolder();
         mFrameTimer = new FrameTimer();
@@ -75,13 +67,13 @@ public class GameView extends SurfaceView implements Runnable{
     private void createViewPort(){
         int screenWidth = getResources().getDisplayMetrics().widthPixels;
         int screenHeight = getResources().getDisplayMetrics().heightPixels;
-        if(SCALE_CONTENT){
-            mSurfaceHolder.setFixedSize(STAGE_WIDTH, STAGE_HEIGHT);
-            screenWidth = STAGE_WIDTH;
-            screenHeight = STAGE_HEIGHT;
+        if(mConfig.GW_SCALE_CONTENT){
+            mSurfaceHolder.setFixedSize(mConfig.GW_STAGE_WIDTH, mConfig.GW_STAGE_HEIGHT);
+            screenWidth = mConfig.GW_STAGE_WIDTH;
+            screenHeight = mConfig.GW_STAGE_HEIGHT;
         }
 
-        mCamera = new Viewport(screenWidth, screenHeight, METERS_TO_SHOW_X, METERS_TO_SHOW_Y);
+        mCamera = new Viewport(screenWidth, screenHeight, mConfig.GW_METERS_TO_SHOW_X, mConfig.GW_METERS_TO_SHOW_Y);
     }
 
     public void setInputManager(InputManager input){
@@ -139,7 +131,6 @@ public class GameView extends SurfaceView implements Runnable{
     }
 
     private void doCollisionChecks(){
-        Player player = mLevelManager.mPlayer;
         int count = mActiveEntities.size();
         GameObject a, b;
         for(int i = 0; i < count-1; i++){
@@ -160,7 +151,7 @@ public class GameView extends SurfaceView implements Runnable{
             return;
         }
 
-        mCanvas.drawColor(BG_COLOR);
+        mCanvas.drawColor(mConfig.GW_BACKGROUND_COLOR);
         mPaint.setColor(Color.WHITE);
         for (GameObject go : mActiveEntities){
             //Bitmap b = mLevelManager.getBitmap(go.mType);
@@ -216,5 +207,13 @@ public class GameView extends SurfaceView implements Runnable{
 
     public int getPixelsPerMeter(){
         return mCamera.getPixelsPerMetreX();
+    }
+
+    public Config getConfig(){
+        if(mConfig == null){
+            throw new NullPointerException("Config not initialized!");
+        }
+
+        return mConfig;
     }
 }

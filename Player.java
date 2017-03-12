@@ -14,32 +14,20 @@ import android.util.Log;
 
 public class Player extends DynamicGameObject {
     static final String TAG = "Player";
-    static final int HEIGHT = 2;
-    static final int WIDTH = 1;
-    private static final float ACCEL_X = 0.15f;
-    private static final float ACCEL_Y = 0.1f;
-    private static final float TERMINAL_VELOCITY = 8f;
-    private static final float MAX_VELOCITY = 6f;
-
-    private static final float PLAYER_JUMP_HEIGHT = 3f;
-    private static final float PLAYER_JUMP_DURATION = 0.150f;
-    private static final float PLAYER_JUMP_IMPULSE = -(PLAYER_JUMP_HEIGHT/PLAYER_JUMP_DURATION);
-
+    private final float PLAYER_JUMP_IMPULSE;
     private static final int LEFT = -1;
     private static final int RIGHT = 1;
-    private boolean mIsOnGround = false;
     private float mJumpTime = 0f;
     private int mFacing = RIGHT;
+    private boolean mIsOnGround = false;
     private AnimationManager mAnim = null;
-
 
     public Player(final GameView engine, final float x, final float y, final int type) {
         super(engine, x, y, type);
-        mAcceleration.x = ACCEL_X;
-        mAcceleration.y = ACCEL_Y;
+        mAcceleration.x = mConfig.P_ACCELERATION_X;
+        mAcceleration.y = mConfig.P_ACCELERATION_Y;
+        PLAYER_JUMP_IMPULSE = -(mConfig.P_JUMP_HEIGHT / mConfig.P_JUMP_DURATION);
         mAnim = new AnimationManager(engine, R.drawable.player_anim, mWidth, mHeight);
-
-
     }
 
     @Override
@@ -73,11 +61,7 @@ public class Player extends DynamicGameObject {
         }
 
         mTransform.postTranslate(GameObject.screenCord.x + offset, GameObject.screenCord.y);
-
-
-
         canvas.drawBitmap(mAnim.getCurrentBitmap(), mTransform, paint);
-
     }
 
     @Override
@@ -93,18 +77,18 @@ public class Player extends DynamicGameObject {
             mFacing = RIGHT;
         }
 
-        mTargetSpeed.x = mEngine.mControl.mHorizontalFactor * (MAX_VELOCITY * deltaTime);
+        mTargetSpeed.x = mEngine.mControl.mHorizontalFactor * (mConfig.P_MAX_VELOCITY * deltaTime);
 //        /*mVelocity.x += ACCEL_X * targetSpeed;
 //        if(Math.abs(mVelocity.x) > Math.abs(targetSpeed)){
 //            mVelocity.x = targetSpeed;
 //        }*/
 
-        if(mEngine.mControl.mIsJumping && mJumpTime < PLAYER_JUMP_DURATION){
+        if(mEngine.mControl.mIsJumping && mJumpTime < mConfig.P_JUMP_DURATION){
             mVelocity.y = (PLAYER_JUMP_IMPULSE * deltaTime);
             mJumpTime += deltaTime;
             mIsOnGround = false;
         }else{
-            mVelocity.y += ACCEL_Y * (TERMINAL_VELOCITY*deltaTime);
+            mVelocity.y += mAcceleration.y * (mConfig.P_TERMINAL_VELOCITY * deltaTime);
         }
 
         super.update(deltaTime);
