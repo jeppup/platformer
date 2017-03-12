@@ -62,6 +62,9 @@ public class LevelManager {
            case 3:
                 o = new Target(mEngine, x, y, tileType);
                 break;
+            case 4:
+                o = new Enemy(mEngine, x, y, tileType);
+                break;
             default:
                 o = new GameObject(mEngine, x, y, tileType);
                 break;

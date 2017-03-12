@@ -13,23 +13,6 @@ public abstract class LevelData {
     public int mWidth;
     public int mTileCount;
 
-    protected void loadLevelVariables(){
-        mTileCount = countUniqueTiles();
-    }
-
-    protected int countTargets(){
-        int counter = 0;
-        for(int y = 0; y < mHeight; y++){
-            for(int x = 0; x < mWidth; x++){
-                if(mTiles[y][x] == 3){
-                    counter++;
-                }
-            }
-        }
-
-        return counter;
-    }
-
     protected int countUniqueTiles(){
         int tileType;
         HashSet<Integer> set = new HashSet<>();

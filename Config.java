@@ -20,6 +20,7 @@ public class Config {
     public final int GW_STAGE_WIDTH;
     public final int GW_STAGE_HEIGHT;
     public final int GW_BACKGROUND_COLOR;
+
     public final boolean GW_SCALE_CONTENT;
 
     public final int GO_DEFAULT_HEIGHT;
@@ -32,6 +33,9 @@ public class Config {
     public final float P_MAX_VELOCITY;
     public final float P_JUMP_HEIGHT;
     public final float P_JUMP_DURATION;
+    public final int P_MAX_HEALTH;
+
+    public final int E_DAMAGE;
 
     public final int VP_TILE_BUFFER;
 
@@ -39,7 +43,6 @@ public class Config {
     public Config(Context context){
         mContext = context;
         mResources = context.getResources();
-
         GW_METERS_TO_SHOW_X = getInt(R.integer.GW_METERS_TO_SHOW_X);
         GW_METERS_TO_SHOW_Y = getInt(R.integer.GW_METERS_TO_SHOW_Y);
         GW_STAGE_WIDTH = getInt(R.integer.GW_STAGE_WIDTH);
@@ -57,6 +60,9 @@ public class Config {
         P_MAX_VELOCITY = getFloat(R.dimen.P_MAX_VELOCITY);
         P_JUMP_HEIGHT = getFloat(R.dimen.P_JUMP_HEIGHT);
         P_JUMP_DURATION = getFloat(R.dimen.P_JUMP_DURATION);
+        P_MAX_HEALTH = getInt(R.integer.P_MAX_HEALTH);
+
+        E_DAMAGE = getInt(R.integer.E_DAMAGE);
 
         VP_TILE_BUFFER = getInt(R.integer.VP_TILE_BUFFER);
     }

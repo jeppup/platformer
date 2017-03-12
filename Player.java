@@ -22,12 +22,30 @@ public class Player extends DynamicGameObject {
     private boolean mIsOnGround = false;
     private AnimationManager mAnim = null;
 
+    private static int mMaxHitPoints;
+    private static int mHitPoints;
+
+
+
     public Player(final GameView engine, final float x, final float y, final int type) {
         super(engine, x, y, type);
         mAcceleration.x = mConfig.P_ACCELERATION_X;
         mAcceleration.y = mConfig.P_ACCELERATION_Y;
         PLAYER_JUMP_IMPULSE = -(mConfig.P_JUMP_HEIGHT / mConfig.P_JUMP_DURATION);
         mAnim = new AnimationManager(engine, R.drawable.player_anim, mWidth, mHeight);
+        reset();
+    }
+
+    private void reset(){
+        mMaxHitPoints = mConfig.P_MAX_HEALTH;
+        mHitPoints = mConfig.P_MAX_HEALTH;
+    }
+
+    public static int getHitPoints(){ return mHitPoints; }
+    public static int getMaxHitPoints(){ return mMaxHitPoints; }
+
+    public static void applyDamage(int dmgAmount){
+        mHitPoints -= dmgAmount;
     }
 
     @Override

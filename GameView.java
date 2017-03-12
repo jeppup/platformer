@@ -17,6 +17,7 @@ import java.util.ArrayList;
 /**
  * Created by Jesper on 2017-02-18.
  * Player art: https://bakudas.itch.io/generic-platformer-pack
+ * Enemy art: http://opengameart.org/content/more-rpg-enemies Stephen Challener (Redshrike)
  * World tiles: http://opengameart.org/content/nature-tileset
  */
 
@@ -169,7 +170,7 @@ public class GameView extends SurfaceView implements Runnable{
 
     private void doDebugDrawing(){
         int y = 60;
-        int textSize = 10;
+        int textSize = 20;
         mPaint.setTextAlign(Paint.Align.LEFT);
         mPaint.setTextSize(textSize);
         mPaint.setColor(Color.WHITE);
@@ -184,6 +185,9 @@ public class GameView extends SurfaceView implements Runnable{
 
         y += textSize;
         mCanvas.drawText("Collected " + Target.getCollectedCount() + " / " + Target.getTotalCount(), 10, y, mPaint);
+
+        y += textSize;
+        mCanvas.drawText("HP: " + Player.getHitPoints() + " / " + Player.getMaxHitPoints(), 10, y, mPaint);
 
         mCamera.resetClipCount();
     }

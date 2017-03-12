@@ -20,7 +20,7 @@ public class TestLevel extends LevelData {
                 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
                 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,2,0,0,0,0,0,0,0,0,0,2,2,2,2,2,2,2},
                 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,0,4,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
                 {0,0,0,0,0,0,0,0,2,2,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
                 {0,0,0,0,0,0,2,2,0,0,0,0,0,0,0,3,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
                 {2,2,2,2,2,2,0,0,0,0,0,0,1,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
@@ -34,7 +34,7 @@ public class TestLevel extends LevelData {
 
         mWidth = mTiles.length;
         mHeight = mTiles.length;
-        loadLevelVariables();
+        mTileCount = countUniqueTiles();
     }
 
     @Override
@@ -49,6 +49,10 @@ public class TestLevel extends LevelData {
                 break;
             case 3:
                 fileName = "target";
+                break;
+            case 4:
+                fileName = "monster";
+                break;
             default:
                 Log.d(TAG, "getBitmapName unknown tiletype: " + tileType);
                 break;
