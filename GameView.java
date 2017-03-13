@@ -33,10 +33,11 @@ public class GameView extends SurfaceView implements Runnable{
     Viewport mCamera = null;
     LevelManager mLevelManager = null;
     InputManager mControl = null;
+    GuiManager mGuiManager = null;
     private static final ArrayList<GameObject> mActiveEntities = new ArrayList<GameObject>();
     private Config mConfig;
 
-    private boolean mDebugging = true;
+    private boolean mDebugging = false;
     private FrameTimer mFrameTimer;
 
     public GameView(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -57,12 +58,14 @@ public class GameView extends SurfaceView implements Runnable{
     private void init(Context context){
         mContext = context;
         mConfig = new Config(context);
+        mGuiManager = new GuiManager(mContext);
         mPaint = new Paint();
         mSurfaceHolder = getHolder();
         mFrameTimer = new FrameTimer();
         mControl = new NullInput();
         createViewPort();
         loadLevel("LevelName");
+
     }
 
     private void createViewPort(){
@@ -93,6 +96,7 @@ public class GameView extends SurfaceView implements Runnable{
         mLevelManager = new LevelManager(this, levelName);
         mCamera.setWorldCentre(mLevelManager.mPlayer.mWorldLocation);
         mCamera.setTarget(mLevelManager.mPlayer);
+        mGuiManager.startGameGui();
     }
 
     public void pause(){
@@ -129,6 +133,7 @@ public class GameView extends SurfaceView implements Runnable{
         }
 
         doCollisionChecks();
+        mGuiManager.update(secondsPassed);
     }
 
     private void doCollisionChecks(){
@@ -159,6 +164,8 @@ public class GameView extends SurfaceView implements Runnable{
             //mCanvas.drawBitmap(b, screenCord.x, screenCord.y, mPaint);
             go.render(mCanvas, mPaint);
         }
+
+        mGuiManager.render(mCanvas, mPaint);
 
 
         if(mDebugging){

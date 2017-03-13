@@ -11,25 +11,40 @@ import java.util.ArrayList;
  */
 
 public class GuiManager {
-    private Context mContext;
+    public enum GameState {IN_GAME, LOST, WON };
 
-    private ArrayList<GameObject> activeComponents = new ArrayList<>();
+    private Context mContext;
+    private GameState mState;
+
+    private ArrayList<GuiComponent> mActiveComponents = new ArrayList<>();
     public GuiManager(Context context){
         mContext = context;
-
     }
 
-    public void initializeLevelGui(){
+    public void startGameGui(){
+        mState = GameState.IN_GAME;
+        mActiveComponents.clear();
+        mActiveComponents.add(new InGameGui());
+    }
 
+    public void gameLost(){
+        mActiveComponents.clear();
+        mState = GameState.LOST;
+    }
+
+    public void gameWon(){
+        mActiveComponents.clear();
+        mState = GameState.WON;
     }
 
     public void update(float deltaTime){
-        activeComponents.clear();
-
+        for(GuiComponent guiComponent : mActiveComponents){
+            guiComponent.update(deltaTime);
+        }
     }
 
     public void render(Canvas canvas, Paint paint){
-        for(GameObject guiComponent : activeComponents){
+        for(GuiComponent guiComponent : mActiveComponents){
             guiComponent.render(canvas, paint);
         }
     }
