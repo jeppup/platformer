@@ -17,8 +17,8 @@ public class Player extends DynamicGameObject {
     private final float PLAYER_JUMP_IMPULSE;
     private static final int LEFT = -1;
     private static final int RIGHT = 1;
-    private float mJumpTime = 0f;
     private int mFacing = RIGHT;
+    private float mJumpTime = 0f;
     private boolean mIsOnGround = false;
     private AnimationManager mAnim = null;
 
@@ -31,6 +31,7 @@ public class Player extends DynamicGameObject {
         super(engine, x, y, type);
         mAcceleration.x = mConfig.P_ACCELERATION_X;
         mAcceleration.y = mConfig.P_ACCELERATION_Y;
+        mPassable = true;
         PLAYER_JUMP_IMPULSE = -(mConfig.P_JUMP_HEIGHT / mConfig.P_JUMP_DURATION);
         mAnim = new AnimationManager(engine, R.drawable.player_anim, mWidth, mHeight);
         reset();
@@ -44,8 +45,10 @@ public class Player extends DynamicGameObject {
     public static int getHitPoints(){ return mHitPoints; }
     public static int getMaxHitPoints(){ return mMaxHitPoints; }
 
-    public static void applyDamage(int dmgAmount){
+    @Override
+    public boolean applyDamage(int dmgAmount){
         mHitPoints -= dmgAmount;
+        return true;
     }
 
     @Override
@@ -57,14 +60,15 @@ public class Player extends DynamicGameObject {
         if(overlap.y != 0){
             mVelocity.y = 0;
             if(overlap.y < 0){
-                Log.d(TAG, "Feet collision");
                 mJumpTime = 0.0f;
                 mIsOnGround = true;
             }
         }
 
-        mWorldLocation.offset(overlap.x, overlap.y);
-        updateBounds();
+        if(!collidingGameObject.mPassable){
+            mWorldLocation.offset(overlap.x, overlap.y);
+            updateBounds();
+        }
     }
 
     @Override

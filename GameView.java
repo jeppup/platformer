@@ -132,12 +132,12 @@ public class GameView extends SurfaceView implements Runnable{
     }
 
     private void doCollisionChecks(){
-        int count = mActiveEntities.size();
+        int count = mLevelManager.mGameObjects.size();
         GameObject a, b;
         for(int i = 0; i < count-1; i++){
-            a = mActiveEntities.get(i);
+            a = mLevelManager.mGameObjects.get(i);
             for(int j = i+1; j < count; j++){
-                b = mActiveEntities.get(j);
+                b = mLevelManager.mGameObjects.get(j);
                 if(a.isColliding(b)){
                     a.onCollision(b);
                     b.onCollision(a);

@@ -36,6 +36,7 @@ public class Config {
     public final int P_MAX_HEALTH;
 
     public final int E_DAMAGE;
+    public final float E_ATTACK_COOLDOWN;
 
     public final int VP_TILE_BUFFER;
 
@@ -63,6 +64,7 @@ public class Config {
         P_MAX_HEALTH = getInt(R.integer.P_MAX_HEALTH);
 
         E_DAMAGE = getInt(R.integer.E_DAMAGE);
+        E_ATTACK_COOLDOWN = getFloat(R.dimen.E_ATTACK_COOLDOWN);
 
         VP_TILE_BUFFER = getInt(R.integer.VP_TILE_BUFFER);
     }

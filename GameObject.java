@@ -23,6 +23,7 @@ public class GameObject {
     public float mWidth;
     public float mHeight;
     public int mType = 0;
+    public boolean mPassable = false;
     public GameView mEngine = null;
     protected Matrix mTransform = new Matrix();
 
@@ -44,7 +45,7 @@ public class GameObject {
         mBounds = new RectF(0.0f, 0.0f, mWidth, mHeight);
         mType = type;
         mWorldLocation.x = x;
-        mWorldLocation.y = y;
+        mWorldLocation.y = y - mHeight;
         updateBounds();
 
     }
@@ -100,6 +101,10 @@ public class GameObject {
         mBounds.top = mWorldLocation.y;
         mBounds.right = mWorldLocation.x + mWidth;
         mBounds.bottom = mWorldLocation.y + mHeight;
+    }
+
+    public boolean applyDamage(int damageAmount){
+        return false;
     }
 
 
