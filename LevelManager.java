@@ -1,8 +1,8 @@
 package com.example.jesper.platformer;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -17,17 +17,43 @@ public class LevelManager {
     private LevelData mData;
     public Player mPlayer;
     private GameView mEngine = null;
-    public LevelManager(final GameView engine, String levelName){
+    private int[] mLevelOrder;
+    private int mCurrentLevel;
+
+    public LevelManager(final GameView engine){
         mEngine = engine;
-        switch (levelName){
-            default:
-                mData = new TestLevel();
-                break;
-        }
+        initializeLevelOrdering();
+        mCurrentLevel = -1;
+        //initializeLevel(mLevelOrder[mCurrentLevel]);
+    }
+
+    public void initializeLevel(int levelResourceId){
+        Resources resources = mEngine.getContext().getResources();
+        mData = new CollectTargetsLevel(resources, levelResourceId);
 
         mGameObjects = new ArrayList<>();
         mBitmaps = new Bitmap[mData.mTileCount];
         loadMapAssets();
+    }
+
+    public boolean levelCompleted(){
+        return mData.levelCompleted();
+    }
+
+    public boolean levelLost(){
+        return Player.getHitPoints() <= 0;
+    }
+
+    public void restartLevel(){
+        initializeLevel(mLevelOrder[mCurrentLevel]);
+    }
+
+    public void progressLevel(){
+        mCurrentLevel++;
+        if(mCurrentLevel >= mLevelOrder.length)
+            mCurrentLevel = 0;
+
+        initializeLevel(mLevelOrder[mCurrentLevel]);
     }
 
     public Bitmap getBitmap(int tileType){
@@ -83,5 +109,11 @@ public class LevelManager {
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    private void initializeLevelOrdering(){
+        mLevelOrder = new int[2];
+        mLevelOrder[0] = R.string.LEVEL_1;
+        mLevelOrder[1] = R.string.LEVEL_2;
     }
 }

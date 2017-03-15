@@ -11,6 +11,8 @@ import android.util.Log;
 public class Enemy extends DynamicGameObject {
     private final Config mConfig;
     private final int mDamage;
+    private AnimationManager mAnim = null;
+
 
     //Attacking
     private float mAttackCooldown;
@@ -37,7 +39,7 @@ public class Enemy extends DynamicGameObject {
         mPassable = true;
         mAttackCooldown = mConfig.E_ATTACK_COOLDOWN;
         mPreviousPosX = mWorldLocation.x;
-
+        mAnim = new AnimationManager(engine, R.drawable.enemy_anim, mWidth, mHeight);
     }
 
     @Override
@@ -75,12 +77,13 @@ public class Enemy extends DynamicGameObject {
         }
 
         mTransform.postTranslate(GameObject.screenCord.x + offset, GameObject.screenCord.y);
-        canvas.drawBitmap(mEngine.getBitmap(mType), mTransform, paint);
+        canvas.drawBitmap(mAnim.getCurrentBitmap(), mTransform, paint);
     }
 
 
     @Override
     public void update(float deltaTime){
+        mAnim.update(deltaTime);
         updateAttackState(deltaTime);
         updateDirection();
         updateVelocity(deltaTime);

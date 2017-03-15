@@ -1,5 +1,6 @@
 package com.example.jesper.platformer;
 
+import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
@@ -8,6 +9,13 @@ import android.graphics.Paint;
  */
 
 public class GuiComponent {
+
+    protected Context mContext;
+    protected Config mConfig;
+    public GuiComponent(Context context, Config config){
+        mContext = context;
+        mConfig = config;
+    }
 
     public void update(float deltaTime){
 

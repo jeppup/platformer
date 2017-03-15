@@ -14,17 +14,19 @@ public class GuiManager {
     public enum GameState {IN_GAME, LOST, WON };
 
     private Context mContext;
+    private Config mConfig;
     private GameState mState;
 
     private ArrayList<GuiComponent> mActiveComponents = new ArrayList<>();
-    public GuiManager(Context context){
+    public GuiManager(Context context, Config config){
         mContext = context;
+        mConfig = config;
     }
 
     public void startGameGui(){
         mState = GameState.IN_GAME;
         mActiveComponents.clear();
-        mActiveComponents.add(new InGameGui());
+        mActiveComponents.add(new InGameGui(mContext, mConfig));
     }
 
     public void gameLost(){

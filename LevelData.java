@@ -1,5 +1,7 @@
 package com.example.jesper.platformer;
 
+import android.content.res.Resources;
+
 import java.util.HashSet;
 
 /**
@@ -26,5 +28,48 @@ public abstract class LevelData {
         return set.size();
     }
 
+    protected void loadLevel(Resources resources, int resourceId){
+        String levelString = resources.getString(resourceId);
+        initializeTilesStructure(levelString);
+
+        int x = 0;
+        int y = 0;
+
+        for(char currentTile : levelString.toCharArray()){
+            if(currentTile == 'X'){
+                y++;
+                x = 0;
+                continue;
+            }
+
+            int tile = Integer.parseInt(currentTile + "");
+            mTiles[y][x] = tile;
+            x++;
+        }
+    }
+
+    protected void initializeTilesStructure(String levelData){
+        int width = getLevelLength(levelData);
+        int height = getLevelHeight(levelData);
+
+        mTiles = new int[height][width];
+    }
+
+    protected int getLevelLength(String levelData){
+        return levelData.indexOf('X');
+    }
+
+    protected int getLevelHeight(String levelData){
+        int levelHeight = 0;
+        for(int i = 0; i < levelData.length(); i++){
+            if(levelData.charAt(i) == 'X'){
+                levelHeight++;
+            }
+        }
+
+        return levelHeight;
+    }
+
     public abstract String getBitmapName(int tileType);
+    public abstract boolean levelCompleted();
 }

@@ -59,4 +59,8 @@ public class Target extends GameObject {
         return mTotalTargetAmount - mCollectedTargets;
     }
 
+    public static void resetTargetCount(){
+        mTotalTargetAmount = 0;
+        mCollectedTargets = 0;
+    }
 }

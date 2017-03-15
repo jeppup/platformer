@@ -37,7 +37,7 @@ public class GameView extends SurfaceView implements Runnable{
     private static final ArrayList<GameObject> mActiveEntities = new ArrayList<GameObject>();
     private Config mConfig;
 
-    private boolean mDebugging = false;
+    private boolean mDebugging = true;
     private FrameTimer mFrameTimer;
 
     public GameView(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -58,14 +58,15 @@ public class GameView extends SurfaceView implements Runnable{
     private void init(Context context){
         mContext = context;
         mConfig = new Config(context);
-        mGuiManager = new GuiManager(mContext);
+        mGuiManager = new GuiManager(mContext, mConfig);
         mPaint = new Paint();
         mSurfaceHolder = getHolder();
         mFrameTimer = new FrameTimer();
         mControl = new NullInput();
         createViewPort();
-        loadLevel("LevelName");
-
+        mLevelManager = new LevelManager(this);
+        mLevelManager.progressLevel();
+        resetFocus();
     }
 
     private void createViewPort(){
@@ -92,8 +93,8 @@ public class GameView extends SurfaceView implements Runnable{
         mCamera.worldToScreen(worldLocation, screenCord);
     }
 
-    private void loadLevel(String levelName){
-        mLevelManager = new LevelManager(this, levelName);
+
+    private void resetFocus(){
         mCamera.setWorldCentre(mLevelManager.mPlayer.mWorldLocation);
         mCamera.setTarget(mLevelManager.mPlayer);
         mGuiManager.startGameGui();
@@ -122,7 +123,26 @@ public class GameView extends SurfaceView implements Runnable{
 
     }
 
+    private boolean lostOrCompleted(){
+        if(mLevelManager.levelCompleted()){
+            mLevelManager.progressLevel();
+            return true;
+        }
+        else if(mLevelManager.levelLost()){
+            mLevelManager.restartLevel();
+            return true;
+        }
+
+        return false;
+    }
+
     private void update(float secondsPassed){
+        if(lostOrCompleted()){
+            resetFocus();
+            return;
+        }
+
+
         mActiveEntities.clear();
         mCamera.update(secondsPassed);
         for(GameObject go : mLevelManager.mGameObjects){
