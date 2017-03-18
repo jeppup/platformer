@@ -81,7 +81,7 @@ public class AnimationManager {
 
         if(mCurrentAnimationTime > mDuration){
             if(mSoundResourceId != -1){
-                mEngine.mSoundManager.play(mSoundResourceId, false, 0);
+                mEngine.mSoundManager.play(mSoundResourceId, false);
             }
 
             if(mAnim.isOneShot()){

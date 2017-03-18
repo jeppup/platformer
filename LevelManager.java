@@ -17,14 +17,17 @@ public class LevelManager {
     private LevelData mData;
     public Player mPlayer;
     private GameView mEngine = null;
+    private Config mConfig;
     private int[] mLevelOrder;
     private int mCurrentLevel;
+    private SoundManager mSoundManager;
 
     public LevelManager(final GameView engine){
         mEngine = engine;
+        mConfig = engine.getConfig();
+        mSoundManager = engine.mSoundManager;
         initializeLevelOrdering();
         mCurrentLevel = -1;
-        //initializeLevel(mLevelOrder[mCurrentLevel]);
     }
 
     public void initializeLevel(int levelResourceId){
@@ -37,11 +40,21 @@ public class LevelManager {
     }
 
     public boolean levelCompleted(){
-        return mData.levelCompleted();
+        if(mData.levelCompleted()){
+            mSoundManager.play(SoundManager.LEVEL_COMPLETED, false);
+            return true;
+        }
+
+        return false;
     }
 
     public boolean levelLost(){
-        return Player.getHitPoints() <= 0;
+        if(Player.getHitPoints() <= 0 || mPlayer.mWorldLocation.y > mConfig.LM_BOUND_Y){
+            mSoundManager.play(SoundManager.PLAYER_DEATH, false);
+            return true;
+        }
+
+        return false;
     }
 
     public void restartLevel(){

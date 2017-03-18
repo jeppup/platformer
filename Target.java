@@ -45,6 +45,7 @@ public class Target extends GameObject {
         mCollectedTargets++;
         mIsCollected = true;
         mBounds = new RectF(0,0,0,0);
+        mEngine.mSoundManager.play(SoundManager.TARGET_COLLECTED, false);
     }
 
     public static int getTotalCount(){

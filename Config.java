@@ -60,6 +60,9 @@ public class Config {
     public final float GUI_HEALTHBAR_HEIGHT;
     public final String GUI_SCOREBOARD_TEXT;
 
+    public final float LM_BOUND_X;
+    public final float LM_BOUND_Y;
+
 
     public Config(Context context){
         mContext = context;
@@ -106,6 +109,9 @@ public class Config {
         GUI_SCOREBOARD_TEXT = getString(R.string.GUI_SCOREBOARD_TEXT);
         GUI_HEALTHBAR_LENGTH = getFloat(R.dimen.GUI_HEALTHBAR_LENGTH);
         GUI_HEALTHBAR_HEIGHT = getFloat(R.dimen.GUI_HEALTHBAR_HEIGHT);
+
+        LM_BOUND_X = getFloat(R.dimen.LM_BOUND_X);
+        LM_BOUND_Y = getFloat(R.dimen.LM_BOUND_Y);
     }
 
     private float getFloat(int resourceId){

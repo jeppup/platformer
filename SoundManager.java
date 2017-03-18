@@ -18,9 +18,12 @@ import java.io.IOException;
 
 public class SoundManager {
     private SoundPool mSoundPool;
-    private final int MAX_STREAMS = 5;
+    private final int MAX_STREAMS = 10;
     public static int ENEMY_WALKING;
     public static int BACKGROUND_MUSIC;
+    public static int TARGET_COLLECTED;
+    public static int PLAYER_DEATH;
+    public static int LEVEL_COMPLETED;
 
     public SoundManager(Context context){
         mSoundPool = createSoundPool();
@@ -28,7 +31,7 @@ public class SoundManager {
             @Override
             public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
                 if(sampleId == BACKGROUND_MUSIC){
-                    play(BACKGROUND_MUSIC, true, 0);
+                    play(BACKGROUND_MUSIC, true);
                 }
             }
         });
@@ -46,19 +49,31 @@ public class SoundManager {
         try{
             AssetManager assetManager = context.getAssets();
             AssetFileDescriptor descriptor;
+
             descriptor = assetManager.openFd("monster_walking.ogg");
-            ENEMY_WALKING = mSoundPool.load(descriptor, 0);
+            ENEMY_WALKING = mSoundPool.load(descriptor, 1);
+
             descriptor = assetManager.openFd("background_music.ogg");
             BACKGROUND_MUSIC = mSoundPool.load(descriptor, 1);
+
+            descriptor = assetManager.openFd("player_death.ogg");
+            PLAYER_DEATH = mSoundPool.load(descriptor, 1);
+
+            descriptor = assetManager.openFd("level_completed.ogg");
+            LEVEL_COMPLETED = mSoundPool.load(descriptor, 1);
+
+            descriptor = assetManager.openFd("target_collected.ogg");
+            TARGET_COLLECTED = mSoundPool.load(descriptor, 1);
         }catch (IOException ex){
             Log.e("Couldn't load sound", ex.getMessage());
         }
     }
 
-    public void play(final int soundId, boolean loop, int priority){
+    public void play(final int soundId, boolean loop){
         float leftVolume = 1.0f;
         float rightVolume = 1.0f;
         int loopSound = loop ? -1 : 0;
+        int priority = 0;
         float rate = 1.0f;
 
         if(soundId > 0 ){

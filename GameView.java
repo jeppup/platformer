@@ -69,7 +69,6 @@ public class GameView extends SurfaceView implements Runnable{
         mLevelManager = new LevelManager(this);
         mLevelManager.progressLevel();
         resetFocus();
-        //mSoundManager.play(SoundManager.BACKGROUND_MUSIC, false, 1);
     }
 
     private void createViewPort(){
@@ -217,6 +216,8 @@ public class GameView extends SurfaceView implements Runnable{
         y += textSize;
         mCanvas.drawText("HP: " + Player.getHitPoints() + " / " + Player.getMaxHitPoints(), 10, y, mPaint);
 
+        y+= textSize;
+        mCanvas.drawText("Player location: " + mLevelManager.mPlayer.mWorldLocation.x + ", " + mLevelManager.mPlayer.mWorldLocation.y, 10, y, mPaint);
         mCamera.resetClipCount();
     }
 
