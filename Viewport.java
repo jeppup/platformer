@@ -23,17 +23,15 @@ public class Viewport {
     private int mClippedCount;
     private GameObject mTarget = null;
 
-    private final static int BUFFER = 2;
-
-    public Viewport(final int screenWidth, final int screenHeight, final int metersToShowX, final int metersToShowY){
+    public Viewport(Config config, final int screenWidth, final int screenHeight, final int metersToShowX, final int metersToShowY){
         mScreenXResolution = screenWidth;
         mScreenYResolution = screenHeight;
         mScreenCentreX = mScreenXResolution / 2;
         mScreenCentreY = mScreenYResolution / 2;
         mPixelsPerMetreX = mScreenXResolution / metersToShowX;
         mPixelsPerMetreY = mScreenYResolution / metersToShowY;
-        mMetresToShowX = metersToShowX + BUFFER;
-        mMetresToShowY = metersToShowY + BUFFER;
+        mMetresToShowX = metersToShowX + config.VP_TILE_BUFFER;
+        mMetresToShowY = metersToShowY + config.VP_TILE_BUFFER;
         mHalfDistX = (mMetresToShowX / 2);
         mHalfDistY = (mMetresToShowY / 2);
 
@@ -84,8 +82,6 @@ public class Viewport {
     public void worldToScreen(final PointF worldPos, Point screenPos){
         screenPos.x = (int)(mScreenCentreX - ((mCurrentViewportWorldCentre.x - worldPos.x) * mPixelsPerMetreX));
         screenPos.y = (int)(mScreenCentreY - ((mCurrentViewportWorldCentre.y - worldPos.y) * mPixelsPerMetreY));
-
-        //point.set((int)(worldPos.x * mPixelsPerMetreX), (int)(worldPos.y * mPixelsPerMetreY));
     }
 
     public boolean inView(final PointF worldPos, final float objectWidth, final float objectHeight) {
@@ -97,7 +93,7 @@ public class Viewport {
                 && (worldPos.y > minY && worldPos.y < maxY)){
             return true;
         }
-        mClippedCount++; //for debugging
+        mClippedCount++;
         return false;
     }
 }

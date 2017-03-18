@@ -78,7 +78,7 @@ public class GameView extends SurfaceView implements Runnable{
             screenHeight = mConfig.GW_STAGE_HEIGHT;
         }
 
-        mCamera = new Viewport(screenWidth, screenHeight, mConfig.GW_METERS_TO_SHOW_X, mConfig.GW_METERS_TO_SHOW_Y);
+        mCamera = new Viewport(mConfig, screenWidth, screenHeight, mConfig.GW_METERS_TO_SHOW_X, mConfig.GW_METERS_TO_SHOW_Y);
     }
 
     public void setInputManager(InputManager input){

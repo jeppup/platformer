@@ -10,6 +10,7 @@ import java.util.HashSet;
 
 public abstract class LevelData {
     public final static int BACKGROUND = 0;
+    public final static char END_OF_LINE = 'X';
     public int[][] mTiles;
     public int mHeight;
     public int mWidth;
@@ -36,7 +37,7 @@ public abstract class LevelData {
         int y = 0;
 
         for(char currentTile : levelString.toCharArray()){
-            if(currentTile == 'X'){
+            if(currentTile == END_OF_LINE){
                 y++;
                 x = 0;
                 continue;
@@ -56,13 +57,13 @@ public abstract class LevelData {
     }
 
     protected int getLevelLength(String levelData){
-        return levelData.indexOf('X');
+        return levelData.indexOf(END_OF_LINE);
     }
 
     protected int getLevelHeight(String levelData){
         int levelHeight = 0;
         for(int i = 0; i < levelData.length(); i++){
-            if(levelData.charAt(i) == 'X'){
+            if(levelData.charAt(i) == END_OF_LINE){
                 levelHeight++;
             }
         }

@@ -18,7 +18,6 @@ public class HealthBar extends GuiComponent {
     @Override
     public void render(Canvas canvas, Paint paint){
         paint.setColor(Color.GREEN);
-
         RectF rectangle = new RectF(mConfig.GUI_SCREEN_MARGIN,
                 mConfig.GUI_SCREEN_MARGIN,
                 mConfig.GUI_SCREEN_MARGIN + mConfig.GUI_HEALTHBAR_LENGTH,
