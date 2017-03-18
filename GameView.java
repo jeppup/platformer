@@ -32,6 +32,7 @@ public class GameView extends SurfaceView implements Runnable{
     Paint mPaint = null;
     Viewport mCamera = null;
     LevelManager mLevelManager = null;
+    SoundManager mSoundManager = null;
     InputManager mControl = null;
     GuiManager mGuiManager = null;
     private static final ArrayList<GameObject> mActiveEntities = new ArrayList<GameObject>();
@@ -59,6 +60,7 @@ public class GameView extends SurfaceView implements Runnable{
         mContext = context;
         mConfig = new Config(context);
         mGuiManager = new GuiManager(mContext, mConfig);
+        mSoundManager = new SoundManager(context);
         mPaint = new Paint();
         mSurfaceHolder = getHolder();
         mFrameTimer = new FrameTimer();
@@ -180,8 +182,6 @@ public class GameView extends SurfaceView implements Runnable{
         mCanvas.drawColor(mConfig.GW_BACKGROUND_COLOR);
         mPaint.setColor(Color.WHITE);
         for (GameObject go : mActiveEntities){
-            //Bitmap b = mLevelManager.getBitmap(go.mType);
-            //mCanvas.drawBitmap(b, screenCord.x, screenCord.y, mPaint);
             go.render(mCanvas, mPaint);
         }
 
@@ -231,11 +231,9 @@ public class GameView extends SurfaceView implements Runnable{
     }
     @Override
     public void run(){
-        //mTimer.reset()
         while(mIsRunning){
             update(mFrameTimer.onEnterFrame());
             render();
-            //mTimer.endFrame();
         }
     }
 

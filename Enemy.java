@@ -23,7 +23,7 @@ public class Enemy extends DynamicGameObject {
     public Enemy(GameView engine, float x, float y, int type) {
         super(engine, x, y, engine.getConfig().E_WIDTH, engine.getConfig().E_HEIGHT, type);
         mPreviousPosX = mWorldLocation.x;
-        mAnim = new AnimationManager(engine, R.drawable.enemy_anim, mWidth, mHeight);
+        mAnim = new AnimationManager(engine, R.drawable.enemy_anim, engine.mSoundManager.ENEMY_WALKING,  mWidth, mHeight);
     }
 
     @Override

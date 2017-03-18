@@ -13,15 +13,22 @@ import java.util.Random;
 
 public class AnimationManager {
     private GameView mEngine = null;
-    private static AnimationDrawable mAnim = null;
+    private AnimationDrawable mAnim = null;
     private Bitmap[] mFrames = null;
     private int mFrameCount = 0;
     private int mDuration = 0;
     private long mCurrentAnimationTime = 0;
     private int mCurrentFrame = 0;
+    private int mSoundResourceId = -1;
 
     public AnimationManager(GameView engine, int resourceId, float width, float height){
         mEngine = engine;
+        loadAnimationResource(resourceId, width, height);
+    }
+
+    public AnimationManager(GameView engine, int resourceId, int soundResourceId, float width, float height){
+        mEngine = engine;
+        mSoundResourceId = soundResourceId;
         loadAnimationResource(resourceId, width, height);
     }
 
@@ -35,9 +42,11 @@ public class AnimationManager {
         if(!mAnim.isOneShot()){
             Random r = new Random();
             mCurrentAnimationTime = r.nextInt(mDuration);
+        }else{
+            mCurrentAnimationTime = 0;
         }
 
-        mCurrentAnimationTime = 0;
+
         mCurrentFrame = 0;
     }
 
@@ -64,13 +73,17 @@ public class AnimationManager {
 
     public Bitmap getCurrentBitmap(){
        return mFrames[mCurrentFrame];
-
     }
 
     public void update(float deltaTime){
         long elapsedMillis = (long)(1000.0f * deltaTime);
         mCurrentAnimationTime += elapsedMillis;
+
         if(mCurrentAnimationTime > mDuration){
+            if(mSoundResourceId != -1){
+                mEngine.mSoundManager.play(mSoundResourceId);
+            }
+
             if(mAnim.isOneShot()){
                 return;
             }
@@ -87,7 +100,7 @@ public class AnimationManager {
         }
     }
 
-    public static int getAnimationDuration(AnimationDrawable anim){
+    public int getAnimationDuration(AnimationDrawable anim){
         int count = anim.getNumberOfFrames();
         int duration = 0;
         for(int i = 0; i < count; i++){
