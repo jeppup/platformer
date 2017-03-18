@@ -40,6 +40,14 @@ public class Config {
 
     public final int VP_TILE_BUFFER;
 
+    public final float GUI_TEXT_SIZE;
+    public final float GUI_SCOREBOARD_WIDTH;
+    public final float GUI_SCREEN_MARGIN;
+    public final float GUI_SCOREBOARD_HEIGHT;
+    public final float GUI_HEALTHBAR_LENGTH;
+    public final float GUI_HEALTHBAR_HEIGHT;
+    public final String GUI_SCOREBOARD_TEXT;
+
 
     public Config(Context context){
         mContext = context;
@@ -67,6 +75,14 @@ public class Config {
         E_ATTACK_COOLDOWN = getFloat(R.dimen.E_ATTACK_COOLDOWN);
 
         VP_TILE_BUFFER = getInt(R.integer.VP_TILE_BUFFER);
+
+        GUI_TEXT_SIZE = getFloat(R.dimen.GUI_TEXT_SIZE);
+        GUI_SCOREBOARD_HEIGHT = getFloat(R.dimen.GUI_SCOREBOARD_HEIGHT);
+        GUI_SCOREBOARD_WIDTH = getFloat(R.dimen.GUI_SCOREBOARD_WIDTH);
+        GUI_SCREEN_MARGIN = getFloat(R.dimen.GUI_SCREEN_MARGIN);
+        GUI_SCOREBOARD_TEXT = getString(R.string.GUI_SCOREBOARD_TEXT);
+        GUI_HEALTHBAR_LENGTH = getFloat(R.dimen.GUI_HEALTHBAR_LENGTH);
+        GUI_HEALTHBAR_HEIGHT = getFloat(R.dimen.GUI_HEALTHBAR_HEIGHT);
     }
 
     private float getFloat(int resourceId){

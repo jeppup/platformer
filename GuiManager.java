@@ -15,7 +15,6 @@ public class GuiManager {
 
     private Context mContext;
     private Config mConfig;
-    private GameState mState;
 
     private ArrayList<GuiComponent> mActiveComponents = new ArrayList<>();
     public GuiManager(Context context, Config config){
@@ -24,19 +23,17 @@ public class GuiManager {
     }
 
     public void startGameGui(){
-        mState = GameState.IN_GAME;
         mActiveComponents.clear();
-        mActiveComponents.add(new InGameGui(mContext, mConfig));
+        mActiveComponents.add(new ScoreBox(mContext, mConfig));
+        mActiveComponents.add(new HealthBar(mContext, mConfig));
     }
 
     public void gameLost(){
         mActiveComponents.clear();
-        mState = GameState.LOST;
     }
 
     public void gameWon(){
         mActiveComponents.clear();
-        mState = GameState.WON;
     }
 
     public void update(float deltaTime){

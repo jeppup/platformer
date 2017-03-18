@@ -31,7 +31,6 @@ public class Player extends DynamicGameObject {
         super(engine, x, y, type);
         mAcceleration.x = mConfig.P_ACCELERATION_X;
         mAcceleration.y = mConfig.P_ACCELERATION_Y;
-        mPassable = true;
         PLAYER_JUMP_IMPULSE = -(mConfig.P_JUMP_HEIGHT / mConfig.P_JUMP_DURATION);
         mAnim = new AnimationManager(engine, R.drawable.player_anim, mWidth, mHeight);
         reset();
@@ -65,10 +64,8 @@ public class Player extends DynamicGameObject {
             }
         }
 
-        if(!collidingGameObject.mPassable){
-            mWorldLocation.offset(overlap.x, overlap.y);
-            updateBounds();
-        }
+        mWorldLocation.offset(overlap.x, overlap.y);
+        updateBounds();
     }
 
     @Override

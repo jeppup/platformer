@@ -36,7 +36,6 @@ public class Enemy extends DynamicGameObject {
         super(engine, x, y, 3, 3, type);
         mConfig = engine.getConfig();
         mDamage = mConfig.E_DAMAGE;
-        mPassable = true;
         mAttackCooldown = mConfig.E_ATTACK_COOLDOWN;
         mPreviousPosX = mWorldLocation.x;
         mAnim = new AnimationManager(engine, R.drawable.enemy_anim, mWidth, mHeight);
@@ -59,10 +58,8 @@ public class Enemy extends DynamicGameObject {
             mVelocity.y = 0f;
         }
 
-        if(!collidingGameObject.mPassable){
-            mWorldLocation.offset(overlap.x, overlap.y);
-            //updateBounds();
-        }
+        mWorldLocation.offset(overlap.x, overlap.y);
+        updateBounds();
     }
 
     @Override

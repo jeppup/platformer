@@ -23,7 +23,6 @@ public class GameObject {
     public float mWidth;
     public float mHeight;
     public int mType = 0;
-    public boolean mPassable = false;
     public GameView mEngine = null;
     protected Matrix mTransform = new Matrix();
 
@@ -47,7 +46,6 @@ public class GameObject {
         mWorldLocation.x = x;
         mWorldLocation.y = y - mHeight;
         updateBounds();
-
     }
 
     public void update(float deltaTime){};

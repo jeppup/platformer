@@ -37,7 +37,7 @@ public class GameView extends SurfaceView implements Runnable{
     private static final ArrayList<GameObject> mActiveEntities = new ArrayList<GameObject>();
     private Config mConfig;
 
-    private boolean mDebugging = true;
+    private boolean mDebugging = false;
     private FrameTimer mFrameTimer;
 
     public GameView(Context context, AttributeSet attrs, int defStyleAttr) {
