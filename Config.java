@@ -37,6 +37,18 @@ public class Config {
 
     public final int E_DAMAGE;
     public final float E_ATTACK_COOLDOWN;
+    public final float E_WIDTH;
+    public final float E_HEIGHT;
+    public final float E_STUCK_TOLERANCE;
+    public final float E_STUCK_PLAYER_TOLERANCE;
+    public final float E_JUMP_ACCELERATION;
+    public final float E_JUMP_SPEED;
+    public final float E_JUMP_DURATION;
+    public final float E_MOVE_SPEED;
+    public final float E_MOVE_ACCELERATION;
+    public final float E_TERMINAL_SPEED;
+    public final float E_GRAVITY;
+
 
     public final int VP_TILE_BUFFER;
 
@@ -73,6 +85,17 @@ public class Config {
 
         E_DAMAGE = getInt(R.integer.E_DAMAGE);
         E_ATTACK_COOLDOWN = getFloat(R.dimen.E_ATTACK_COOLDOWN);
+        E_WIDTH = getFloat(R.dimen.E_WIDTH);
+        E_HEIGHT = getFloat(R.dimen.E_HEIGHT);
+        E_STUCK_TOLERANCE = getFloat(R.dimen.E_STUCK_TOLERANCE);
+        E_STUCK_PLAYER_TOLERANCE = getFloat(R.dimen.E_STUCK_PLAYER_TOLERANCE);
+        E_JUMP_ACCELERATION = getFloat(R.dimen.E_JUMP_ACCELERATION);
+        E_JUMP_SPEED = getFloat(R.dimen.E_JUMP_SPEED);
+        E_JUMP_DURATION = getFloat(R.dimen.E_JUMP_DURATION);
+        E_MOVE_SPEED = getFloat(R.dimen.E_MOVE_SPEED);
+        E_GRAVITY = getFloat(R.dimen.E_GRAVITY);
+        E_MOVE_ACCELERATION = getFloat(R.dimen.E_MOVE_ACCELERATION);
+        E_TERMINAL_SPEED = getFloat(R.dimen.E_TERMINAL_SPEED);
 
         VP_TILE_BUFFER = getInt(R.integer.VP_TILE_BUFFER);
 

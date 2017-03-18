@@ -19,7 +19,6 @@ public class Player extends DynamicGameObject {
     private static final int RIGHT = 1;
     private int mFacing = RIGHT;
     private float mJumpTime = 0f;
-    private boolean mIsOnGround = false;
     private AnimationManager mAnim = null;
 
     private static int mMaxHitPoints;
@@ -60,7 +59,6 @@ public class Player extends DynamicGameObject {
             mVelocity.y = 0;
             if(overlap.y < 0){
                 mJumpTime = 0.0f;
-                mIsOnGround = true;
             }
         }
 
@@ -86,9 +84,6 @@ public class Player extends DynamicGameObject {
     @Override
     public void update(float deltaTime){
         mAnim.update(deltaTime);
-        if(mVelocity.y != 0){
-            mIsOnGround = false;
-        }
 
         if(mEngine.mControl.mHorizontalFactor < 0){
             mFacing = LEFT;
@@ -97,32 +92,14 @@ public class Player extends DynamicGameObject {
         }
 
         mTargetSpeed.x = mEngine.mControl.mHorizontalFactor * (mConfig.P_MAX_VELOCITY * deltaTime);
-//        /*mVelocity.x += ACCEL_X * targetSpeed;
-//        if(Math.abs(mVelocity.x) > Math.abs(targetSpeed)){
-//            mVelocity.x = targetSpeed;
-//        }*/
 
         if(mEngine.mControl.mIsJumping && mJumpTime < mConfig.P_JUMP_DURATION){
             mVelocity.y = (PLAYER_JUMP_IMPULSE * deltaTime);
             mJumpTime += deltaTime;
-            mIsOnGround = false;
         }else{
             mVelocity.y += mAcceleration.y * (mConfig.P_TERMINAL_VELOCITY * deltaTime);
         }
 
         super.update(deltaTime);
-
-//        if(mEngine.mControl.mIsJumping && mIsOnGround){
-//            mVelocity.y = -PLAYER_JUMP_IMPULSE *deltaTime;
-//            mIsOnGround = false;
-//        }
-//
-//        targetSpeed = (TERMINAL_VELOCITY * deltaTime);
-//        mVelocity.y += ACCEL_Y * targetSpeed;
-//        if(mVelocity.y > targetSpeed){
-//            mVelocity.y = targetSpeed;
-//        }
-//
-//        super.update(deltaTime);
     }
 }

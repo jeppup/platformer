@@ -9,34 +9,19 @@ import android.util.Log;
  */
 
 public class Enemy extends DynamicGameObject {
-    private final Config mConfig;
-    private final int mDamage;
     private AnimationManager mAnim = null;
-
-
-    //Attacking
-    private float mAttackCooldown;
     private float mCooldownTimer;
     private boolean mCanAttack = true;
-
-    //Stuck handling
-    private float mPreviousPosX;
-
-
-    //Jumping
-    private float mJumpDuration = 0.4f;
-    private float mJumpTimer = 0.0f;
     private  boolean mIsJumping = false;
+    private float mPreviousPosX;
+    private float mJumpTimer = 0.0f;
+    private int mFacing = RIGHT;
 
     private static final int LEFT = -1;
     private static final int RIGHT = 1;
-    private int mFacing = RIGHT;
 
     public Enemy(GameView engine, float x, float y, int type) {
-        super(engine, x, y, 3, 3, type);
-        mConfig = engine.getConfig();
-        mDamage = mConfig.E_DAMAGE;
-        mAttackCooldown = mConfig.E_ATTACK_COOLDOWN;
+        super(engine, x, y, engine.getConfig().E_WIDTH, engine.getConfig().E_HEIGHT, type);
         mPreviousPosX = mWorldLocation.x;
         mAnim = new AnimationManager(engine, R.drawable.enemy_anim, mWidth, mHeight);
     }
@@ -44,7 +29,7 @@ public class Enemy extends DynamicGameObject {
     @Override
     public void onCollision(GameObject collidingGameObject) {
         if(mCanAttack){
-            if(collidingGameObject.applyDamage(mDamage)){
+            if(collidingGameObject.applyDamage(mConfig.E_DAMAGE)){
                 mCanAttack = false;
                 mTargetSpeed.x = 0f;
             }
@@ -77,7 +62,6 @@ public class Enemy extends DynamicGameObject {
         canvas.drawBitmap(mAnim.getCurrentBitmap(), mTransform, paint);
     }
 
-
     @Override
     public void update(float deltaTime){
         mAnim.update(deltaTime);
@@ -94,7 +78,7 @@ public class Enemy extends DynamicGameObject {
         float xDiff = Math.abs(mPreviousPosX - mWorldLocation.x);
         if(mCanAttack)
         {
-            if(xDiff < 0.01f && distanceToPlayer() > 0.2f && !mIsJumping){
+            if(xDiff < mConfig.E_STUCK_TOLERANCE && distanceToPlayer() > mConfig.E_STUCK_PLAYER_TOLERANCE && !mIsJumping){
                 mIsJumping = true;
             }
         }
@@ -105,8 +89,8 @@ public class Enemy extends DynamicGameObject {
     private void handleObstacles(float deltaTime){
         if(!mIsJumping){ return; }
 
-        if(mJumpTimer < mJumpDuration){
-            mVelocity.y += (-0.7f * 8.0f * deltaTime);
+        if(mJumpTimer < mConfig.E_JUMP_DURATION){
+            mVelocity.y += (-mConfig.E_JUMP_ACCELERATION * mConfig.E_JUMP_SPEED * deltaTime);
             mJumpTimer += deltaTime;
         }else{
             mJumpTimer = 0f;
@@ -116,13 +100,12 @@ public class Enemy extends DynamicGameObject {
 
     private void updateVelocity(float deltaTime){
         if(mCanAttack){
-            mTargetSpeed.x =  mFacing * 3.0f * deltaTime;
-            mAcceleration.x = 0.7f;
+            mTargetSpeed.x =  mFacing * mConfig.E_MOVE_SPEED * deltaTime;
+            mAcceleration.x = mConfig.E_MOVE_ACCELERATION;
         }
 
-        mTargetSpeed.y = 3.0f * deltaTime;
-        mAcceleration.y = 0.2f;
-
+        mTargetSpeed.y = mConfig.E_TERMINAL_SPEED * deltaTime;
+        mAcceleration.y = mConfig.E_GRAVITY;
         mVelocity.y += mAcceleration.y * mTargetSpeed.y;
         mVelocity.y = Utils.clamp(mVelocity.y, -mTargetSpeed.y, mTargetSpeed.y);
     }
@@ -131,7 +114,7 @@ public class Enemy extends DynamicGameObject {
         if(!mCanAttack){
             mCooldownTimer += deltaTime;
 
-            if(mCooldownTimer > mAttackCooldown){
+            if(mCooldownTimer > mConfig.E_ATTACK_COOLDOWN){
                 mCanAttack = true;
                 mCooldownTimer = 0.0f;
             }
