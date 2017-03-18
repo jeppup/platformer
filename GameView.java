@@ -69,6 +69,7 @@ public class GameView extends SurfaceView implements Runnable{
         mLevelManager = new LevelManager(this);
         mLevelManager.progressLevel();
         resetFocus();
+        //mSoundManager.play(SoundManager.BACKGROUND_MUSIC, false, 1);
     }
 
     private void createViewPort(){

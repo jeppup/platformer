@@ -20,9 +20,18 @@ public class SoundManager {
     private SoundPool mSoundPool;
     private final int MAX_STREAMS = 5;
     public static int ENEMY_WALKING;
+    public static int BACKGROUND_MUSIC;
 
     public SoundManager(Context context){
         mSoundPool = createSoundPool();
+        mSoundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+            @Override
+            public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
+                if(sampleId == BACKGROUND_MUSIC){
+                    play(BACKGROUND_MUSIC, true, 0);
+                }
+            }
+        });
         loadSounds(context);
     }
 
@@ -39,20 +48,21 @@ public class SoundManager {
             AssetFileDescriptor descriptor;
             descriptor = assetManager.openFd("monster_walking.ogg");
             ENEMY_WALKING = mSoundPool.load(descriptor, 0);
+            descriptor = assetManager.openFd("background_music.ogg");
+            BACKGROUND_MUSIC = mSoundPool.load(descriptor, 1);
         }catch (IOException ex){
             Log.e("Couldn't load sound", ex.getMessage());
         }
     }
 
-    public void play(final int soundId){
+    public void play(final int soundId, boolean loop, int priority){
         float leftVolume = 1.0f;
         float rightVolume = 1.0f;
-        int priority = 1;
-        int loop = 0;
+        int loopSound = loop ? -1 : 0;
         float rate = 1.0f;
 
         if(soundId > 0 ){
-            mSoundPool.play(soundId, leftVolume, rightVolume, priority, loop, rate);
+            mSoundPool.play(soundId, leftVolume, rightVolume, priority, loopSound, rate);
         }
     }
 
