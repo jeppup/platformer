@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 /**
  * Created by Jesper on 2017-02-18.
+ * School project
  * Player art: https://bakudas.itch.io/generic-platformer-pack
  * Enemy art: http://opengameart.org/content/more-rpg-enemies Stephen Challener (Redshrike)
  * World tiles: http://opengameart.org/content/nature-tileset
