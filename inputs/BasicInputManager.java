@@ -1,7 +1,9 @@
-package com.example.jesper.platformer;
+package com.example.jesper.platformer.inputs;
 
 import android.view.MotionEvent;
 import android.view.View;
+
+import com.example.jesper.platformer.R;
 
 /**
  * Created by Jesper on 2017-02-26.

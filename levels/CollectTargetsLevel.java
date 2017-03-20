@@ -1,7 +1,9 @@
-package com.example.jesper.platformer;
+package com.example.jesper.platformer.levels;
 
 import android.content.res.Resources;
 import android.util.Log;
+
+import com.example.jesper.platformer.gameobjects.Target;
 
 /**
  * Created by Jesper on 2017-02-19.

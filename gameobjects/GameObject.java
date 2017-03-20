@@ -1,4 +1,4 @@
-package com.example.jesper.platformer;
+package com.example.jesper.platformer.gameobjects;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -9,6 +9,9 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.RectF;
+
+import com.example.jesper.platformer.Config;
+import com.example.jesper.platformer.engine.GameView;
 
 /**
  * Created by Jesper on 2017-02-18.

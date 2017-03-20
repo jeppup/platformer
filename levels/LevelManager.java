@@ -1,8 +1,17 @@
-package com.example.jesper.platformer;
+package com.example.jesper.platformer.levels;
 
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+
+import com.example.jesper.platformer.Config;
+import com.example.jesper.platformer.R;
+import com.example.jesper.platformer.SoundManager;
+import com.example.jesper.platformer.gameobjects.Target;
+import com.example.jesper.platformer.engine.GameView;
+import com.example.jesper.platformer.gameobjects.Enemy;
+import com.example.jesper.platformer.gameobjects.GameObject;
+import com.example.jesper.platformer.gameobjects.Player;
 
 import java.util.ArrayList;
 

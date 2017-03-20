@@ -6,6 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.jesper.platformer.engine.GameView;
+import com.example.jesper.platformer.inputs.BasicInputManager;
+
 public class MainActivity extends AppCompatActivity {
     GameView mGameView = null;
     private View mDecorView;

@@ -1,5 +1,8 @@
 package com.example.jesper.platformer;
 
+import com.example.jesper.platformer.engine.GameView;
+import com.example.jesper.platformer.gameobjects.GameObject;
+
 /**
  * Created by Jesper on 2017-02-18.
  */

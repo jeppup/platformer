@@ -1,4 +1,4 @@
-package com.example.jesper.platformer;
+package com.example.jesper.platformer.inputs;
 
 /**
  * Created by Jesper on 2017-02-26.

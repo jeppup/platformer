@@ -1,8 +1,11 @@
-package com.example.jesper.platformer;
+package com.example.jesper.platformer.gameobjects;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
+
+import com.example.jesper.platformer.SoundManager;
+import com.example.jesper.platformer.engine.GameView;
 
 /**
  * Created by Jesper on 2017-03-12.

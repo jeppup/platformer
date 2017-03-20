@@ -1,10 +1,13 @@
-package com.example.jesper.platformer;
+package com.example.jesper.platformer.gui;
 
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
+
+import com.example.jesper.platformer.Config;
+import com.example.jesper.platformer.gameobjects.Player;
 
 /**
  * Created by Jesper on 2017-03-18.

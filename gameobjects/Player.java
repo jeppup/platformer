@@ -1,12 +1,12 @@
-package com.example.jesper.platformer;
+package com.example.jesper.platformer.gameobjects;
 
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.drawable.AnimationDrawable;
-import android.graphics.drawable.BitmapDrawable;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
+
+import com.example.jesper.platformer.AnimationManager;
+import com.example.jesper.platformer.R;
+import com.example.jesper.platformer.engine.GameView;
 
 /**
  * Created by Jesper on 2017-02-18.

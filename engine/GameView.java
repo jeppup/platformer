@@ -1,4 +1,4 @@
-package com.example.jesper.platformer;
+package com.example.jesper.platformer.engine;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -11,6 +11,18 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+
+import com.example.jesper.platformer.Config;
+import com.example.jesper.platformer.FrameTimer;
+import com.example.jesper.platformer.gameobjects.GameObject;
+import com.example.jesper.platformer.gui.GuiManager;
+import com.example.jesper.platformer.inputs.InputManager;
+import com.example.jesper.platformer.levels.LevelManager;
+import com.example.jesper.platformer.inputs.NullInput;
+import com.example.jesper.platformer.gameobjects.Player;
+import com.example.jesper.platformer.SoundManager;
+import com.example.jesper.platformer.gameobjects.Target;
+import com.example.jesper.platformer.Viewport;
 
 import java.util.ArrayList;
 
@@ -25,6 +37,11 @@ import java.util.ArrayList;
 public class GameView extends SurfaceView implements Runnable{
     private static final String TAG = "GameView";
 
+    public LevelManager mLevelManager = null;
+    public SoundManager mSoundManager = null;
+    public GuiManager mGuiManager = null;
+    public InputManager mControl = null;
+
     private volatile boolean mIsRunning = false;
     private Thread mGameThread = null;
     private Canvas mCanvas;
@@ -32,12 +49,9 @@ public class GameView extends SurfaceView implements Runnable{
     Context mContext = null;
     Paint mPaint = null;
     Viewport mCamera = null;
-    LevelManager mLevelManager = null;
-    SoundManager mSoundManager = null;
-    InputManager mControl = null;
-    GuiManager mGuiManager = null;
     private static final ArrayList<GameObject> mActiveEntities = new ArrayList<GameObject>();
     private Config mConfig;
+
 
     private boolean mDebugging = false;
     private FrameTimer mFrameTimer;

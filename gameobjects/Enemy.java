@@ -1,8 +1,13 @@
-package com.example.jesper.platformer;
+package com.example.jesper.platformer.gameobjects;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.Log;
+
+import com.example.jesper.platformer.AnimationManager;
+import com.example.jesper.platformer.R;
+import com.example.jesper.platformer.Utils;
+import com.example.jesper.platformer.engine.GameView;
 
 /**
  * Created by Jesper on 2017-03-12.
@@ -35,7 +40,7 @@ public class Enemy extends DynamicGameObject {
             }
         }
 
-        if(!GameObject.getOverlap(this, collidingGameObject)){
+        if(!getOverlap(this, collidingGameObject)){
             Log.d("ENEMY", "getOverlap false negative");
         }
 
@@ -51,14 +56,14 @@ public class Enemy extends DynamicGameObject {
     public void render(Canvas canvas, Paint paint){
         mTransform.reset();
         mTransform.setScale(mFacing, 1.0f);
-        mEngine.setScreenCoordinate(mWorldLocation, GameObject.screenCord);
+        mEngine.setScreenCoordinate(mWorldLocation, screenCord);
 
         int offset = 0;
         if(mFacing == LEFT){
             offset = (int)mWidth * mEngine.getPixelsPerMeter();
         }
 
-        mTransform.postTranslate(GameObject.screenCord.x + offset, GameObject.screenCord.y);
+        mTransform.postTranslate(screenCord.x + offset, screenCord.y);
         canvas.drawBitmap(mAnim.getCurrentBitmap(), mTransform, paint);
     }
 

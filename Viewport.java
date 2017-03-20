@@ -4,6 +4,8 @@ import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.Rect;
 
+import com.example.jesper.platformer.gameobjects.GameObject;
+
 /**
  * Created by Jesper on 2017-02-18.
  */
@@ -54,7 +56,7 @@ public class Viewport {
         mClippedCount = 0;
     }
 
-    void setWorldCentre(final PointF pos){
+    public void setWorldCentre(final PointF pos){
         mCurrentViewportWorldCentre.x = pos.x;
         mCurrentViewportWorldCentre.y = pos.y;
     }

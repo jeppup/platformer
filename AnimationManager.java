@@ -5,6 +5,8 @@ import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.v4.content.ContextCompat;
 
+import com.example.jesper.platformer.engine.GameView;
+
 import java.util.Random;
 
 /**
@@ -45,7 +47,6 @@ public class AnimationManager {
         }else{
             mCurrentAnimationTime = 0;
         }
-
 
         mCurrentFrame = 0;
     }

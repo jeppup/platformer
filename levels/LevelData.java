@@ -1,4 +1,4 @@
-package com.example.jesper.platformer;
+package com.example.jesper.platformer.levels;
 
 import android.content.res.Resources;
 

@@ -1,8 +1,10 @@
-package com.example.jesper.platformer;
+package com.example.jesper.platformer.gui;
 
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+
+import com.example.jesper.platformer.Config;
 
 import java.util.ArrayList;
 

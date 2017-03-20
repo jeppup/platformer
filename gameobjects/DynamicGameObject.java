@@ -1,6 +1,9 @@
-package com.example.jesper.platformer;
+package com.example.jesper.platformer.gameobjects;
 
 import android.graphics.PointF;
+
+import com.example.jesper.platformer.Utils;
+import com.example.jesper.platformer.engine.GameView;
 
 /**
  * Created by Jesper on 2017-02-26.

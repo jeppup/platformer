@@ -1,6 +1,4 @@
-package com.example.jesper.platformer;
-
-import android.renderscript.ScriptGroup;
+package com.example.jesper.platformer.inputs;
 
 /**
  * Created by Jesper on 2017-02-26.
