@@ -3,6 +3,7 @@ package com.example.jesper.platformer.gameobjects;
 import android.graphics.PointF;
 
 import com.example.jesper.platformer.Utils;
+import com.example.jesper.platformer.engine.GameEngine;
 import com.example.jesper.platformer.engine.GameView;
 
 /**
@@ -18,11 +19,11 @@ public class DynamicGameObject extends GameObject {
     public PointF mTargetSpeed = new PointF(0.0f, 0.0f);
     public float mFriction = 0.98f;
 
-    public DynamicGameObject(GameView engine, float x, float y, float width, float height, int type) {
+    public DynamicGameObject(GameEngine engine, float x, float y, float width, float height, int type) {
         super(engine, x, y, width, height, type);
     }
 
-    public DynamicGameObject(GameView engine, float x, float y, int type) {
+    public DynamicGameObject(GameEngine engine, float x, float y, int type) {
         super(engine, x, y, type);
     }
 

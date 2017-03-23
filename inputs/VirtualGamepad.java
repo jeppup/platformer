@@ -9,9 +9,9 @@ import com.example.jesper.platformer.R;
  * Created by Jesper on 2017-02-26.
  */
 
-public class BasicInputManager extends InputManager implements View.OnTouchListener {
+public class VirtualGamepad extends InputManager implements View.OnTouchListener {
 
-    public BasicInputManager(View view){
+    public VirtualGamepad(View view){
         view.findViewById(R.id.keypad_up).setOnTouchListener(this);
         view.findViewById(R.id.keypad_down).setOnTouchListener(this);
         view.findViewById(R.id.keypad_left).setOnTouchListener(this);

@@ -7,6 +7,7 @@ import android.util.Log;
 import com.example.jesper.platformer.AnimationManager;
 import com.example.jesper.platformer.R;
 import com.example.jesper.platformer.Utils;
+import com.example.jesper.platformer.engine.GameEngine;
 import com.example.jesper.platformer.engine.GameView;
 
 /**
@@ -25,7 +26,7 @@ public class Enemy extends DynamicGameObject {
     private static final int LEFT = -1;
     private static final int RIGHT = 1;
 
-    public Enemy(GameView engine, float x, float y, int type) {
+    public Enemy(GameEngine engine, float x, float y, int type) {
         super(engine, x, y, engine.getConfig().E_WIDTH, engine.getConfig().E_HEIGHT, type);
         mPreviousPosX = mWorldLocation.x;
         mAnim = new AnimationManager(engine, R.drawable.enemy_anim, engine.mSoundManager.ENEMY_WALKING,  mWidth, mHeight);

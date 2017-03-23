@@ -5,6 +5,7 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 
 import com.example.jesper.platformer.SoundManager;
+import com.example.jesper.platformer.engine.GameEngine;
 import com.example.jesper.platformer.engine.GameView;
 
 /**
@@ -19,7 +20,7 @@ public class Target extends GameObject {
     private final RectF mStoredBounds;
 
 
-    public Target(GameView engine, float x, float y, int tileType){
+    public Target(GameEngine engine, float x, float y, int tileType){
         super(engine, x, y, tileType);
         mStoredBounds = mBounds;
         Target.mTotalTargetAmount++;

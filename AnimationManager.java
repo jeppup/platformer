@@ -5,6 +5,7 @@ import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.v4.content.ContextCompat;
 
+import com.example.jesper.platformer.engine.GameEngine;
 import com.example.jesper.platformer.engine.GameView;
 
 import java.util.Random;
@@ -14,7 +15,7 @@ import java.util.Random;
  */
 
 public class AnimationManager {
-    private GameView mEngine = null;
+    private GameEngine mEngine = null;
     private AnimationDrawable mAnim = null;
     private Bitmap[] mFrames = null;
     private int mFrameCount = 0;
@@ -23,12 +24,12 @@ public class AnimationManager {
     private int mCurrentFrame = 0;
     private int mSoundResourceId = -1;
 
-    public AnimationManager(GameView engine, int resourceId, float width, float height){
+    public AnimationManager(GameEngine engine, int resourceId, float width, float height){
         mEngine = engine;
         loadAnimationResource(resourceId, width, height);
     }
 
-    public AnimationManager(GameView engine, int resourceId, int soundResourceId, float width, float height){
+    public AnimationManager(GameEngine engine, int resourceId, int soundResourceId, float width, float height){
         mEngine = engine;
         mSoundResourceId = soundResourceId;
         loadAnimationResource(resourceId, width, height);

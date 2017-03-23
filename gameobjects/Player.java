@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.example.jesper.platformer.AnimationManager;
 import com.example.jesper.platformer.R;
+import com.example.jesper.platformer.engine.GameEngine;
 import com.example.jesper.platformer.engine.GameView;
 
 /**
@@ -26,7 +27,7 @@ public class Player extends DynamicGameObject {
 
 
 
-    public Player(final GameView engine, final float x, final float y, final int type) {
+    public Player(final GameEngine engine, final float x, final float y, final int type) {
         super(engine, x, y, type);
         mAcceleration.x = mConfig.P_ACCELERATION_X;
         mAcceleration.y = mConfig.P_ACCELERATION_Y;

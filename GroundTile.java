@@ -1,5 +1,6 @@
 package com.example.jesper.platformer;
 
+import com.example.jesper.platformer.engine.GameEngine;
 import com.example.jesper.platformer.engine.GameView;
 import com.example.jesper.platformer.gameobjects.GameObject;
 
@@ -8,7 +9,7 @@ import com.example.jesper.platformer.gameobjects.GameObject;
  */
 
 public class GroundTile extends GameObject {
-    public GroundTile(GameView engine, float x, float y, int type){
+    public GroundTile(GameEngine engine, float x, float y, int type){
         super(engine, x, y, type);
     }
 }

@@ -11,7 +11,7 @@ import android.graphics.PointF;
 import android.graphics.RectF;
 
 import com.example.jesper.platformer.Config;
-import com.example.jesper.platformer.engine.GameView;
+import com.example.jesper.platformer.engine.GameEngine;
 
 /**
  * Created by Jesper on 2017-02-18.
@@ -26,19 +26,19 @@ public class GameObject {
     public float mWidth;
     public float mHeight;
     public int mType = 0;
-    public GameView mEngine = null;
+    public GameEngine mEngine = null;
     protected Matrix mTransform = new Matrix();
 
-    public GameObject(final GameView engine, final float x, final float y,
+    public GameObject(final GameEngine engine, final float x, final float y,
                       final float width, final float height, final int type){
         init(engine, x, y, width, height, type);
     }
 
-    public GameObject(final GameView engine, final float x, final float y, final int type){
+    public GameObject(final GameEngine engine, final float x, final float y, final int type){
         init(engine, x, y, -1, -1, type);
     }
 
-    private void init(final GameView engine, final float x, final float y,
+    private void init(final GameEngine engine, final float x, final float y,
                       final float width, final float height, final int type){
         mEngine = engine;
         mConfig = engine.getConfig();

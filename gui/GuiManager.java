@@ -38,11 +38,6 @@ public class GuiManager {
         mActiveComponents.clear();
     }
 
-    public void update(float deltaTime){
-        for(GuiComponent guiComponent : mActiveComponents){
-            guiComponent.update(deltaTime);
-        }
-    }
 
     public void render(Canvas canvas, Paint paint){
         for(GuiComponent guiComponent : mActiveComponents){

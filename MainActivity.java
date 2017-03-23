@@ -6,11 +6,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.jesper.platformer.engine.GameEngine;
 import com.example.jesper.platformer.engine.GameView;
-import com.example.jesper.platformer.inputs.BasicInputManager;
+import com.example.jesper.platformer.inputs.VirtualGamepad;
 
 public class MainActivity extends AppCompatActivity {
     GameView mGameView = null;
+    GameEngine mGameEngine = null;
     private View mDecorView;
 
     @Override
@@ -20,35 +22,36 @@ public class MainActivity extends AppCompatActivity {
         hideSystemUI();
         setContentView(R.layout.activity_main);
         mGameView = (GameView)findViewById(R.id.gameView);
-        mGameView.setInputManager(new BasicInputManager(findViewById(R.id.keypad)));
+        mGameEngine = new GameEngine(this, mGameView);
+        mGameEngine.setInputManager(new VirtualGamepad(findViewById(R.id.keypad)));
     }
 
     @Override
     protected void onPause(){
         super.onPause();
-        mGameView.pause();
+        mGameEngine.pauseGame();
     }
 
     @Override
     protected void onResume(){
         super.onResume();
-        mGameView.resume();
+        mGameEngine.resumeGame();
     }
 
     @Override
     protected void onStart(){
         super.onStart();
+        mGameEngine.startGame();
     }
 
     @Override
     protected void onStop(){
-
     }
 
     @Override
     protected void onDestroy(){
         super.onDestroy();
-        mGameView.destroy();
+        mGameEngine.stopGame();
     }
 
     @Override

@@ -24,6 +24,7 @@ public class Viewport {
     private float mHalfDistY;
     private int mClippedCount;
     private GameObject mTarget = null;
+    public volatile int mInViewCount = 0;
 
     public Viewport(Config config, final int screenWidth, final int screenHeight, final int metersToShowX, final int metersToShowY){
         mScreenXResolution = screenWidth;
@@ -69,6 +70,7 @@ public class Viewport {
         if(mTarget ==null){
             return;
         }
+        mInViewCount = 0;
         mCurrentViewportWorldCentre.x += (mTarget.mWorldLocation.x - mCurrentViewportWorldCentre.x)*0.125f;
         mCurrentViewportWorldCentre.y += (mTarget.mWorldLocation.y - mCurrentViewportWorldCentre.y)*0.25f;
     }
@@ -93,6 +95,7 @@ public class Viewport {
         float minY  = (mCurrentViewportWorldCentre.y - mHalfDistY) - objectHeight;
         if((worldPos.x > minX && worldPos.x < maxX)
                 && (worldPos.y > minY && worldPos.y < maxY)){
+            mInViewCount++;
             return true;
         }
         mClippedCount++;

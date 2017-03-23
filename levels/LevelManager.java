@@ -7,6 +7,8 @@ import android.graphics.Bitmap;
 import com.example.jesper.platformer.Config;
 import com.example.jesper.platformer.R;
 import com.example.jesper.platformer.SoundManager;
+import com.example.jesper.platformer.engine.GameEngine;
+import com.example.jesper.platformer.gameobjects.DebugText;
 import com.example.jesper.platformer.gameobjects.Target;
 import com.example.jesper.platformer.engine.GameView;
 import com.example.jesper.platformer.gameobjects.Enemy;
@@ -22,16 +24,15 @@ import java.util.ArrayList;
 public class LevelManager {
     private final static String TAG = "LevelManager";
     private Bitmap[] mBitmaps;
-    public ArrayList<GameObject> mGameObjects;
     private LevelData mData;
     public Player mPlayer;
-    private GameView mEngine = null;
+    private GameEngine mEngine = null;
     private Config mConfig;
     private int[] mLevelOrder;
     private int mCurrentLevel;
     private SoundManager mSoundManager;
 
-    public LevelManager(final GameView engine){
+    public LevelManager(final GameEngine engine){
         mEngine = engine;
         mConfig = engine.getConfig();
         mSoundManager = engine.mSoundManager;
@@ -42,8 +43,7 @@ public class LevelManager {
     public void initializeLevel(int levelResourceId){
         Resources resources = mEngine.getContext().getResources();
         mData = new CollectTargetsLevel(resources, levelResourceId);
-
-        mGameObjects = new ArrayList<>();
+        mEngine.mGameObjects = new ArrayList<>();
         mBitmaps = new Bitmap[mData.mTileCount];
         loadMapAssets();
     }
@@ -94,10 +94,12 @@ public class LevelManager {
                 GameObject temp = createGameObject(tileType, x, y);
                 if(temp != null){
                     loadBitmap(mEngine.getContext(), temp, mEngine.getPixelsPerMeter());
-                    mGameObjects.add(temp);
+                    mEngine.mGameObjects.add(temp);
                 }
             }
         }
+
+        mEngine.mGameObjects.add(new DebugText(mEngine, 0.0f,0.0f,0));
     }
 
     private GameObject createGameObject(final int tileType, final int x, final int y){
