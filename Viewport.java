@@ -62,11 +62,11 @@ public class Viewport {
         mCurrentViewportWorldCentre.y = pos.y;
     }
 
-    public void setTarget(final GameObject go){
+    public synchronized void setTarget(final GameObject go){
         mTarget = go;
     }
 
-    public void update(float dt){
+    public synchronized void update(float dt){
         if(mTarget ==null){
             return;
         }
@@ -84,8 +84,10 @@ public class Viewport {
     }
 
     public void worldToScreen(final PointF worldPos, Point screenPos){
-        screenPos.x = (int)(mScreenCentreX - ((mCurrentViewportWorldCentre.x - worldPos.x) * mPixelsPerMetreX));
-        screenPos.y = (int)(mScreenCentreY - ((mCurrentViewportWorldCentre.y - worldPos.y) * mPixelsPerMetreY));
+        synchronized (screenPos){
+            screenPos.x = (int)(mScreenCentreX - ((mCurrentViewportWorldCentre.x - worldPos.x) * mPixelsPerMetreX));
+            screenPos.y = (int)(mScreenCentreY - ((mCurrentViewportWorldCentre.y - worldPos.y) * mPixelsPerMetreY));
+        }
     }
 
     public boolean inView(final PointF worldPos, final float objectWidth, final float objectHeight) {

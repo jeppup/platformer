@@ -18,7 +18,7 @@ public class Player extends DynamicGameObject {
     private final float PLAYER_JUMP_IMPULSE;
     private static final int LEFT = -1;
     private static final int RIGHT = 1;
-    private int mFacing = RIGHT;
+    private volatile int mFacing = RIGHT;
     private float mJumpTime = 0f;
     private AnimationManager mAnim = null;
 
@@ -63,7 +63,10 @@ public class Player extends DynamicGameObject {
             }
         }
 
-        mWorldLocation.offset(overlap.x, overlap.y);
+
+        synchronized (mWorldLocation){
+            mWorldLocation.offset(overlap.x, overlap.y);
+        }
         updateBounds();
     }
 

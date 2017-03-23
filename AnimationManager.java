@@ -21,7 +21,7 @@ public class AnimationManager {
     private int mFrameCount = 0;
     private int mDuration = 0;
     private long mCurrentAnimationTime = 0;
-    private int mCurrentFrame = 0;
+    private volatile int mCurrentFrame = 0;
     private int mSoundResourceId = -1;
 
     public AnimationManager(GameEngine engine, int resourceId, float width, float height){

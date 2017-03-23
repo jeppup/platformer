@@ -36,7 +36,7 @@ public class GameEngine {
     public GameEngine(Activity activity, IGameView gameView){
         mActivity = activity;
         mControl = new NullInput();
-        mConfig = new Config(activity.getApplicationContext());
+        mConfig = new Config(activity);
         mSoundManager = new SoundManager(mActivity);
         mGameView = gameView;
         mCamera = mGameView.createViewPort();
@@ -53,6 +53,8 @@ public class GameEngine {
 
     public void update(float dt){
         if(lostOrCompleted()){
+            mPlayer = mLevelManager.mPlayer;
+            mGameView.setGameObjects(mGameObjects);
             resetFocus();
             return;
         }
@@ -61,9 +63,6 @@ public class GameEngine {
         int count = mGameObjects.size();
         for(int i = 0; i < count; i++){
             mGameObjects.get(i).update(dt);
-            /*if(mCamera.inView(go.mWorldLocation, go.mWidth, go.mHeight)){
-                mActiveEntities.add(go);
-            }*/
         }
 
         doCollisionChecks();

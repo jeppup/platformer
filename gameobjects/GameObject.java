@@ -94,7 +94,7 @@ public class GameObject {
         return true;
     }
 
-    protected void updateBounds(){
+    protected synchronized void updateBounds(){
         mWorldLocation.x = Math.round(mWorldLocation.x * mConfig.GO_PRECISION) / mConfig.GO_PRECISION;
         mWorldLocation.y = Math.round(mWorldLocation.y * mConfig.GO_PRECISION) / mConfig.GO_PRECISION;
 
@@ -107,9 +107,6 @@ public class GameObject {
     public boolean applyDamage(int damageAmount){
         return false;
     }
-
-
-
 
     public Bitmap prepareBitmap(Context context, String bitMapName, int pixelsPerMeter) throws Exception{
         int resId = context.getResources().getIdentifier(bitMapName, "drawable", context.getPackageName());

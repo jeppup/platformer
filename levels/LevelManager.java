@@ -43,8 +43,8 @@ public class LevelManager {
     public void initializeLevel(int levelResourceId){
         Resources resources = mEngine.getContext().getResources();
         mData = new CollectTargetsLevel(resources, levelResourceId);
-        mEngine.mGameObjects = new ArrayList<>();
         mBitmaps = new Bitmap[mData.mTileCount];
+        mEngine.mGameObjects = new ArrayList<>();
         loadMapAssets();
     }
 

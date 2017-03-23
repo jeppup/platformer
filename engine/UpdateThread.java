@@ -33,7 +33,6 @@ public class UpdateThread extends Thread {
                 waitUntilResumed();
             }
             mEngine.update(mTimer.onEnterFrame());
-
         }
     }
 
@@ -69,7 +68,7 @@ public class UpdateThread extends Thread {
         mTimer.reset();
     }
 
-    public long getAverageFPS(){
+    public synchronized long getAverageFPS(){
         return mTimer.getCurrentFps();
     }
     public boolean isGameRunning(){
