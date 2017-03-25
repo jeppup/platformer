@@ -59,6 +59,7 @@ public class GameEngine {
             return;
         }
 
+        mControl.update(dt);
         mCamera.update(dt);
         int count = mGameObjects.size();
         for(int i = 0; i < count; i++){

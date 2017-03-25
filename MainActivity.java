@@ -12,6 +12,8 @@ import android.view.View;
 
 import com.example.jesper.platformer.engine.GameEngine;
 import com.example.jesper.platformer.engine.GameView;
+import com.example.jesper.platformer.inputs.Accelerometor;
+import com.example.jesper.platformer.inputs.CompositeControl;
 import com.example.jesper.platformer.inputs.Gamepad;
 import com.example.jesper.platformer.inputs.InputManager;
 import com.example.jesper.platformer.inputs.VirtualGamepad;
@@ -34,9 +36,20 @@ public class MainActivity extends AppCompatActivity implements android.hardware.
         mGameView = (GameView)findViewById(R.id.gameView);
         mGameEngine = new GameEngine(this, mGameView);
 
+        /**
+        CompositeControl control = new CompositeControl(
+                new VirtualGamepad(findViewById(R.id.keypad)),
+                new Gamepad(this),
+                new VirtualJoystick(findViewById(R.id.virtual_joystick)),
+                new Accelerometor(this)
+        );
+        mGameEngine.setInputManager(control);
+        **/
+
         mGameEngine.setInputManager(new VirtualGamepad(findViewById(R.id.keypad)));
         //mGameEngine.setInputManager(new Gamepad(this));
         //mGameEngine.setInputManager(new VirtualJoystick(findViewById(R.id.virtual_joystick)));
+        //mGameEngine.setInputManager(new Accelerometor(this));
     }
 
     public void setGamepadListener(GamepadListener listener){

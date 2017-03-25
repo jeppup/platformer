@@ -26,6 +26,8 @@ public abstract class InputManager {
         }
     }
 
+    public void update(float dt){}
+
 
     public void onStart() {};
     public void onStop() {};
