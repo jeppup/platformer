@@ -4,16 +4,26 @@ import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.InputDevice;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 
 import com.example.jesper.platformer.engine.GameEngine;
 import com.example.jesper.platformer.engine.GameView;
+import com.example.jesper.platformer.inputs.Gamepad;
+import com.example.jesper.platformer.inputs.InputManager;
 import com.example.jesper.platformer.inputs.VirtualGamepad;
+import com.example.jesper.platformer.inputs.GamepadListener;
+import com.example.jesper.platformer.inputs.VirtualJoystick;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements android.hardware.input.InputManager.InputDeviceListener{
     GameView mGameView = null;
     GameEngine mGameEngine = null;
     private View mDecorView;
+    GamepadListener mGamepadListener = null;
+    static String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +33,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mGameView = (GameView)findViewById(R.id.gameView);
         mGameEngine = new GameEngine(this, mGameView);
+
         mGameEngine.setInputManager(new VirtualGamepad(findViewById(R.id.keypad)));
+        //mGameEngine.setInputManager(new Gamepad(this));
+        //mGameEngine.setInputManager(new VirtualJoystick(findViewById(R.id.virtual_joystick)));
+    }
+
+    public void setGamepadListener(GamepadListener listener){
+        mGamepadListener = listener;
     }
 
     @Override
@@ -35,6 +52,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume(){
         super.onResume();
+        if(isGameControllerConnected()){
+            Log.d(TAG, "Gamepad detected!");
+        }
         mGameEngine.resumeGame();
     }
 
@@ -83,5 +103,53 @@ public class MainActivity extends AppCompatActivity {
             View.SYSTEM_UI_FLAG_FULLSCREEN |
             View.SYSTEM_UI_FLAG_LOW_PROFILE);
         }
+    }
+
+    public boolean isGameControllerConnected() {
+        int[] deviceIds = InputDevice.getDeviceIds();
+        for (int deviceId : deviceIds) {
+            InputDevice dev = InputDevice.getDevice(deviceId);
+            int sources = dev.getSources();
+            if (((sources & InputDevice.SOURCE_GAMEPAD) == InputDevice.SOURCE_GAMEPAD) ||
+                    ((sources & InputDevice.SOURCE_JOYSTICK) == InputDevice.SOURCE_JOYSTICK)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean dispatchGenericMotionEvent(final MotionEvent ev) {
+        if(mGamepadListener != null){
+            if(mGamepadListener.dispatchGenericMotionEvent(ev)){
+                return true;
+            }
+        }
+        return super.dispatchGenericMotionEvent(ev);
+    }
+
+    @Override
+    public boolean dispatchKeyEvent(final KeyEvent ev) {
+        if(mGamepadListener != null){
+            if(mGamepadListener.dispatchKeyEvent(ev)){
+                return true;
+            }
+        }
+        return super.dispatchKeyEvent(ev);
+    }
+
+    @Override
+    public void onInputDeviceAdded(int deviceId) {
+        Log.d(TAG, "onInputDeviceAdded");
+    }
+
+    @Override
+    public void onInputDeviceRemoved(int deviceId) {
+        Log.d(TAG, "onInputDeviceRemoved");
+    }
+
+    @Override
+    public void onInputDeviceChanged(int deviceId) {
+        Log.d(TAG, "onInputDeviceChanged");
     }
 }
