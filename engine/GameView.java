@@ -61,20 +61,19 @@ public class GameView extends SurfaceView implements IGameView{
         mConfig = new Config(context);
         mPaint = new Paint();
         mSurfaceHolder = getHolder();
-        createViewPort();
         mGuiManager = new GuiManager(context, mConfig);
     }
 
-    public Viewport createViewPort(){
+    public Viewport createViewPort(float metersToShowX, float metersToShowY, float scaleFactor){
         int screenWidth = getResources().getDisplayMetrics().widthPixels;
         int screenHeight = getResources().getDisplayMetrics().heightPixels;
-        if(mConfig.GW_SCALE_CONTENT){
-            mSurfaceHolder.setFixedSize(mConfig.GW_STAGE_WIDTH, mConfig.GW_STAGE_HEIGHT);
-            screenWidth = mConfig.GW_STAGE_WIDTH;
-            screenHeight = mConfig.GW_STAGE_HEIGHT;
+        if(scaleFactor != 1.0f){
+            screenWidth = (int)(screenWidth * scaleFactor);
+            screenHeight = (int)(screenHeight * scaleFactor);
+            mSurfaceHolder.setFixedSize(screenWidth, screenHeight);
         }
 
-        mCamera = new Viewport(mConfig, screenWidth, screenHeight, mConfig.GW_METERS_TO_SHOW_X, mConfig.GW_METERS_TO_SHOW_Y);
+        mCamera = new Viewport(mConfig, screenWidth, screenHeight, metersToShowX, metersToShowY);
         return mCamera;
     }
 

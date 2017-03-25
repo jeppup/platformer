@@ -13,5 +13,5 @@ public interface IGameView {
 
     void setGameObjects(ArrayList<GameObject> gameObjects);
     void render();
-    Viewport createViewPort();
+    Viewport createViewPort(float metersToShowX, float metersToShowY, float scaleFactor);
 }

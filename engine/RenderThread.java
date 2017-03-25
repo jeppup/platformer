@@ -70,7 +70,7 @@ public class RenderThread extends Thread {
     }
 
     public synchronized long getAverageFPS(){
-        return mTimer.getCurrentFps();
+        return mTimer.getAverageFPS();
     }
 
 

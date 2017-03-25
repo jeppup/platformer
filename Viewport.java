@@ -12,42 +12,58 @@ import com.example.jesper.platformer.gameobjects.GameObject;
 
 public class Viewport {
     private PointF mCurrentViewportWorldCentre;
-    private int mPixelsPerMetreX;
-    private int mPixelsPerMetreY;
-    private int mScreenXResolution;
-    private int mScreenYResolution;
+    private float mPixelsPerMetreX;
+    private float mPixelsPerMetreY;
+    private int mScreenWidth;
+    private int mScreenHeight;
     private int mScreenCentreX;
     private int mScreenCentreY;
-    private int mMetresToShowX;
-    private int mMetresToShowY;
+    private float mMetersToShowX;
+    private float mMetersToShowY;
     private float mHalfDistX;
     private float mHalfDistY;
     private int mClippedCount;
     private GameObject mTarget = null;
+    private Config mConfig = null;
     public volatile int mInViewCount = 0;
 
-    public Viewport(Config config, final int screenWidth, final int screenHeight, final int metersToShowX, final int metersToShowY){
-        mScreenXResolution = screenWidth;
-        mScreenYResolution = screenHeight;
-        mScreenCentreX = mScreenXResolution / 2;
-        mScreenCentreY = mScreenYResolution / 2;
-        mPixelsPerMetreX = mScreenXResolution / metersToShowX;
-        mPixelsPerMetreY = mScreenYResolution / metersToShowY;
-        mMetresToShowX = metersToShowX + config.VP_TILE_BUFFER;
-        mMetresToShowY = metersToShowY + config.VP_TILE_BUFFER;
-        mHalfDistX = (mMetresToShowX / 2);
-        mHalfDistY = (mMetresToShowY / 2);
-
+    public Viewport(Config config, final int screenWidth, final int screenHeight, final float metersToShowX, final float metersToShowY){
+        mConfig = config;
+        mScreenWidth = screenWidth;
+        mScreenHeight = screenHeight;
+        mScreenCentreX = mScreenWidth / 2;
+        mScreenCentreY = mScreenHeight / 2;
+        setMetersToShow(metersToShowX, metersToShowY);
         mCurrentViewportWorldCentre = new PointF(0,0);
     }
 
+    private void setMetersToShow(final float metersToShowX, final float metersToShowY){
+        if(metersToShowX < 1 && metersToShowY < 1) throw new IllegalArgumentException("One of the dimensions must be provided");
+
+        mMetersToShowX = metersToShowX;
+        mMetersToShowY = metersToShowY;
+
+        if(metersToShowX > 0 && mMetersToShowY > 0){
+            //Both well defined
+        }else if(metersToShowY > 0){
+            mMetersToShowX = ((float) mScreenWidth / mScreenHeight) * metersToShowY;
+        }else{
+            mMetersToShowY = ((float) mScreenHeight / mScreenWidth) * metersToShowX;
+        }
+
+        mHalfDistX = (mMetersToShowX + mConfig.VP_TILE_BUFFER / 2);
+        mHalfDistY = (mMetersToShowY + mConfig.VP_TILE_BUFFER / 2);
+        mPixelsPerMetreX = mScreenWidth / mMetersToShowX;
+        mPixelsPerMetreY = mScreenHeight / mMetersToShowY;
+    }
+
     public int getScreenWidth() {
-        return mScreenXResolution;
+        return mScreenWidth;
     }
     public int getScreenHeight(){
-        return mScreenYResolution;
+        return mScreenHeight;
     }
-    public int getPixelsPerMetreX(){
+    public float getPixelsPerMetreX(){
         return mPixelsPerMetreX;
     }
     public int getClipCount(){

@@ -69,7 +69,7 @@ public class UpdateThread extends Thread {
     }
 
     public synchronized long getAverageFPS(){
-        return mTimer.getCurrentFps();
+        return mTimer.getAverageFPS();
     }
     public boolean isGameRunning(){
         return mIsRunning;

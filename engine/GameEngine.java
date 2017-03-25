@@ -39,7 +39,7 @@ public class GameEngine {
         mConfig = new Config(activity);
         mSoundManager = new SoundManager(mActivity);
         mGameView = gameView;
-        mCamera = mGameView.createViewPort();
+        mCamera = mGameView.createViewPort(mConfig.GW_METERS_TO_SHOW_X, mConfig.GW_METERS_TO_SHOW_Y, mConfig.GW_SCALE_FACTOR);
         loadLevel();
         resetFocus();
     }
@@ -166,7 +166,7 @@ public class GameEngine {
         return mLevelManager.getBitmap(tileType);
     }
     public int getPixelsPerMeter(){
-        return mCamera.getPixelsPerMetreX();
+        return (int)mCamera.getPixelsPerMetreX();
     }
     public Config getConfig(){ return mConfig; }
     public Context getContext(){ return mActivity; }

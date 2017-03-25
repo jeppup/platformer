@@ -15,13 +15,13 @@ public class Config {
     private Resources mResources;
     private Context mContext;
 
-    public final int GW_METERS_TO_SHOW_X;
-    public final int GW_METERS_TO_SHOW_Y;
+    public final float GW_METERS_TO_SHOW_X;
+    public final float GW_METERS_TO_SHOW_Y;
     public final int GW_STAGE_WIDTH;
     public final int GW_STAGE_HEIGHT;
     public final int GW_BACKGROUND_COLOR;
-
     public final boolean GW_SCALE_CONTENT;
+    public final float GW_SCALE_FACTOR;
 
     public final int GO_DEFAULT_HEIGHT;
     public final int GO_DEFAULT_WIDTH;
@@ -67,11 +67,12 @@ public class Config {
     public Config(Context context){
         mContext = context;
         mResources = context.getResources();
-        GW_METERS_TO_SHOW_X = getInt(R.integer.GW_METERS_TO_SHOW_X);
-        GW_METERS_TO_SHOW_Y = getInt(R.integer.GW_METERS_TO_SHOW_Y);
+        GW_METERS_TO_SHOW_X = getFloat(R.dimen.GW_METERS_TO_SHOW_X);
+        GW_METERS_TO_SHOW_Y = getFloat(R.dimen.GW_METERS_TO_SHOW_Y);
         GW_STAGE_WIDTH = getInt(R.integer.GW_STAGE_WIDTH);
         GW_STAGE_HEIGHT = getInt(R.integer.GW_STAGE_HEIGHT);
         GW_SCALE_CONTENT = getBool(R.bool.GW_SCALE_CONTENT);
+        GW_SCALE_FACTOR = getFloat(R.dimen.GW_SCALE_FACTOR);
         GW_BACKGROUND_COLOR = getColor(R.dimen.GW_BACKGROUND_COLOR);
 
         GO_DEFAULT_HEIGHT = getInt(R.integer.GO_DEFAULT_HEIGHT);
