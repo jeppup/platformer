@@ -96,7 +96,9 @@ public class AnimationManager {
         for(int i = 0; i < mFrameCount; i++){
             frameDuration += mAnim.getDuration(i);
             if(frameDuration > mCurrentAnimationTime){
-                mCurrentFrame = i;
+                synchronized (mFrames){
+                    mCurrentFrame = i;
+                }
                 break;
             }
         }

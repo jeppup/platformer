@@ -12,6 +12,7 @@ import android.view.View;
 
 import com.example.jesper.platformer.engine.GameEngine;
 import com.example.jesper.platformer.engine.GameView;
+import com.example.jesper.platformer.engine.IGameView;
 import com.example.jesper.platformer.inputs.Accelerometor;
 import com.example.jesper.platformer.inputs.CompositeControl;
 import com.example.jesper.platformer.inputs.Gamepad;
@@ -21,7 +22,7 @@ import com.example.jesper.platformer.inputs.GamepadListener;
 import com.example.jesper.platformer.inputs.VirtualJoystick;
 
 public class MainActivity extends AppCompatActivity implements android.hardware.input.InputManager.InputDeviceListener{
-    GameView mGameView = null;
+    IGameView mGameView = null;
     GameEngine mGameEngine = null;
     private View mDecorView;
     GamepadListener mGamepadListener = null;
@@ -33,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements android.hardware.
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         hideSystemUI();
         setContentView(R.layout.activity_main);
-        mGameView = (GameView)findViewById(R.id.gameView);
+        mGameView = (IGameView)findViewById(R.id.gameView);
         mGameEngine = new GameEngine(this, mGameView);
 
         /**
@@ -46,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements android.hardware.
         mGameEngine.setInputManager(control);
         **/
 
-        mGameEngine.setInputManager(new VirtualGamepad(findViewById(R.id.keypad)));
+        //mGameEngine.setInputManager(new VirtualGamepad(findViewById(R.id.keypad)));
         //mGameEngine.setInputManager(new Gamepad(this));
         //mGameEngine.setInputManager(new VirtualJoystick(findViewById(R.id.virtual_joystick)));
         //mGameEngine.setInputManager(new Accelerometor(this));

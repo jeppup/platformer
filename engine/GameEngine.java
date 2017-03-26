@@ -25,6 +25,7 @@ public class GameEngine {
     private Activity mActivity = null;
     private RenderThread mRenderThread = null;
     private UpdateThread mUpdateThread = null;
+
     public ArrayList<GameObject> mGameObjects = new ArrayList();
     private ArrayList<GameObject> mObjectsToAdd = new ArrayList<GameObject>();
     private ArrayList<GameObject> mObjectsToRemove = new ArrayList<GameObject>();
@@ -45,8 +46,8 @@ public class GameEngine {
         mSoundManager = new SoundManager(mActivity);
         mGameView = gameView;
         mCamera = mGameView.createViewPort(mConfig.GW_METERS_TO_SHOW_X, mConfig.GW_METERS_TO_SHOW_Y, mConfig.GW_SCALE_FACTOR);
-        loadLevel();
-        resetFocus();
+        //loadLevel();
+        //resetFocus();
     }
 
     private void loadLevel(){
@@ -119,11 +120,15 @@ public class GameEngine {
         if(mControl != null){
             mControl.onStart();
         }
+        stopGame();
+
         mUpdateThread = new UpdateThread(this);
         mUpdateThread.start();
+        stopGame();
 
         mRenderThread = new RenderThread(this);
         mRenderThread.start();
+        stopGame();
     }
 
     public void stopGame(){
