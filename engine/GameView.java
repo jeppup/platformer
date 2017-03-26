@@ -51,9 +51,7 @@ public class GameView extends SurfaceView implements IGameView{
     }
 
     public void setGameObjects(ArrayList<GameObject> gameObjects){
-        synchronized (mGameObjects) {
-            mGameObjects = gameObjects;
-        }
+        mGameObjects = gameObjects;
     }
 
     private void init(Context context){
@@ -85,14 +83,12 @@ public class GameView extends SurfaceView implements IGameView{
         mCanvas.drawColor(mConfig.GW_BACKGROUND_COLOR);
         mPaint.setColor(Color.WHITE);
         mGuiManager.render(mCanvas, mPaint);
-        synchronized (mGameObjects){
-            int count = mGameObjects.size();
-            GameObject temp;
-            for(int i = 0; i < count; i++){
-                temp = mGameObjects.get(i);
-                if(mCamera.inView(temp.mWorldLocation, temp.mWidth, temp.mHeight)){
-                    temp.render(mCanvas, mPaint);
-                }
+        int count = mGameObjects.size();
+        GameObject temp;
+        for(int i = 0; i < count; i++){
+            temp = mGameObjects.get(i);
+            if(mCamera.inView(temp.mWorldLocation, temp.mWidth, temp.mHeight)){
+                temp.render(mCanvas, mPaint);
             }
         }
 

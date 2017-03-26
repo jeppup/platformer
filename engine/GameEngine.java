@@ -14,6 +14,7 @@ import com.example.jesper.platformer.inputs.InputManager;
 import com.example.jesper.platformer.inputs.NullInput;
 import com.example.jesper.platformer.levels.LevelManager;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -25,6 +26,10 @@ public class GameEngine {
     private RenderThread mRenderThread = null;
     private UpdateThread mUpdateThread = null;
     public ArrayList<GameObject> mGameObjects = new ArrayList();
+    private ArrayList<GameObject> mObjectsToAdd = new ArrayList<GameObject>();
+    private ArrayList<GameObject> mObjectsToRemove = new ArrayList<GameObject>();
+
+
     public InputManager mControl = null;
     public LevelManager mLevelManager = null;
     public SoundManager mSoundManager = null;
@@ -53,9 +58,6 @@ public class GameEngine {
 
     public void update(float dt){
         if(lostOrCompleted()){
-            mPlayer = mLevelManager.mPlayer;
-            mGameView.setGameObjects(mGameObjects);
-            resetFocus();
             return;
         }
 
@@ -67,6 +69,18 @@ public class GameEngine {
         }
 
         doCollisionChecks();
+
+        synchronized (mGameObjects){
+            GameObject temp;
+            while(!mObjectsToRemove.isEmpty()){
+                temp = mObjectsToRemove.remove(0);
+                mGameObjects.remove(temp);
+            }
+            while(!mObjectsToAdd.isEmpty()){
+                temp = mObjectsToAdd.remove(0);
+                addGameObjectNow(temp);
+            }
+        }
     }
 
     public void render(){
@@ -86,6 +100,18 @@ public class GameEngine {
                 }
             }
         }
+    }
+
+    public void addGameObject(final GameObject gameObject){
+        if(isRunning()){
+            mObjectsToAdd.add(gameObject);
+        } else {
+            addGameObjectNow(gameObject);
+        }
+    }
+
+    public void removeGameObject(final GameObject gameObject){
+        mObjectsToRemove.add(gameObject);
     }
 
     public void startGame(){
@@ -148,12 +174,19 @@ public class GameEngine {
     }
 
     private boolean lostOrCompleted(){
+        boolean reinitialize = false;
         if(mLevelManager.levelCompleted()){
             mLevelManager.progressLevel();
-            return true;
+            reinitialize = true;
         }
         else if(mLevelManager.levelLost()){
             mLevelManager.restartLevel();
+            reinitialize =  true;
+        }
+
+        if(reinitialize){
+            mPlayer = mLevelManager.mPlayer;
+            resetFocus();
             return true;
         }
 
@@ -180,5 +213,17 @@ public class GameEngine {
                 mCamera.toString(),
                 "Player : [" + mPlayer.mWorldLocation.x + ", " + mPlayer.mWorldLocation.y + "]"
         };
+    }
+
+    private void addGameObjectNow(final GameObject object){
+        mGameObjects.add(object);
+    }
+
+    public boolean isRunning(){
+        return mUpdateThread != null &&  mUpdateThread.isGameRunning();
+    }
+
+    public boolean isPaused(){
+        return mUpdateThread != null && mUpdateThread.isGamePaused();
     }
 }

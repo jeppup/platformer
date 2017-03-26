@@ -44,7 +44,9 @@ public class LevelManager {
         Resources resources = mEngine.getContext().getResources();
         mData = new CollectTargetsLevel(resources, levelResourceId);
         mBitmaps = new Bitmap[mData.mTileCount];
-        mEngine.mGameObjects = new ArrayList<>();
+        for (GameObject go : mEngine.mGameObjects){
+            mEngine.removeGameObject(go);
+        }
         loadMapAssets();
     }
 
@@ -94,12 +96,12 @@ public class LevelManager {
                 GameObject temp = createGameObject(tileType, x, y);
                 if(temp != null){
                     loadBitmap(mEngine.getContext(), temp, mEngine.getPixelsPerMeter());
-                    mEngine.mGameObjects.add(temp);
+                    mEngine.addGameObject(temp);
                 }
             }
         }
 
-        mEngine.mGameObjects.add(new DebugText(mEngine, 0.0f,0.0f,0));
+        mEngine.addGameObject(new DebugText(mEngine, 0.0f,0.0f,0));
     }
 
     private GameObject createGameObject(final int tileType, final int x, final int y){
