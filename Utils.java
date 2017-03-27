@@ -24,4 +24,12 @@ public class Utils {
     public static int dpToPx(int dp){
         return (int)(dp * Resources.getSystem().getDisplayMetrics().density);
     }
+
+    public static float sineWave(final float centreX, final float range, final float currentAngle){
+        return centreX + (float) Math.sin(currentAngle) * range;
+    }
+
+    public static float cosWave(final float centreX, final float range, final float currentAngle){
+        return centreX + (float) Math.cos(currentAngle) * range;
+    }
 }
