@@ -24,6 +24,7 @@ public class GLManager {
             + "attribute vec4 aPosition; \n"
             + "void main() { \n"
             + "  gl_Position = uMVPMatrix * aPosition; \n"
+            + "  gl_PointSize = 10.0; \n"
             + "} \n";
 
     private static final String fragmentShaderCode = ""
@@ -65,11 +66,6 @@ public class GLManager {
     }
 
     public static void drawMesh(final int drawMode, final int vertexCount){
-        if(drawMode != GLES20.GL_TRIANGLES && drawMode != GLES20.GL_LINES && drawMode != GLES20.GL_POINTS){
-            Log.d(TAG, "drawMesh: unknown primitive type! " + drawMode);
-            return;
-        }
-
         GLES20.glDrawArrays(drawMode, 0, vertexCount);
         GLES20.glDisableVertexAttribArray(GLManager.aPosition);
         checkGLError("drawMesh");

@@ -1,6 +1,7 @@
 package com.example.jesper.platformer.GL;
 
 import android.opengl.GLES20;
+import android.util.Log;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -46,8 +47,13 @@ public class GLModel {
         }
     }
 
-    private void setDrawMode(int primitiveType){
-        mDrawMode = primitiveType;
+    private void setDrawMode(int drawMode){
+        if(drawMode != GLES20.GL_TRIANGLES && drawMode != GLES20.GL_LINES && drawMode != GLES20.GL_POINTS){
+            Log.d("GLModel", "drawMesh: unknown primitive type! " + drawMode);
+            return;
+        }
+
+        mDrawMode = drawMode;
     }
 
     private void setVertices(float[] geometry){
