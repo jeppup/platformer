@@ -32,13 +32,9 @@ public class UpdateThread extends Thread {
             if(mIsPaused){
                 waitUntilResumed();
             }
-            mEngine.update(mTimer.onEnterFrame());
-            try
-            {
-                sleep(50);
-            }
-            catch (InterruptedException ex){}
-
+            float dt = mTimer.onEnterFrame();
+            mEngine.update(dt);
+            mTimer.capFps(dt);
         }
     }
 

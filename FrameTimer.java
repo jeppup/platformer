@@ -16,6 +16,9 @@ public class FrameTimer {
     private long mMeasuringStartedTime = 0;
     private float mAvgFPS = 0;
 
+    private float mTargetUpdateDuration = 17;
+
+
     public FrameTimer() {
         reset();
     }
@@ -33,6 +36,18 @@ public class FrameTimer {
         mMillisCount += mElapsedTime;
         mStartFrameTime = System.currentTimeMillis();
         return mElapsedTime / TO_SECONDS;
+    }
+
+    public void capFps(float updateDuration){
+        long sleepTime = (long)(mTargetUpdateDuration - updateDuration);
+        if(sleepTime > 0f){
+            try
+            {
+                Thread.sleep(sleepTime);
+            }
+            catch (InterruptedException ex){}
+
+        }
     }
 
     public long getElapsedMillis(){ return mElapsedTime; }
