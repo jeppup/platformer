@@ -61,7 +61,7 @@ public class GameEngine {
         int height = Resources.getSystem().getDisplayMetrics().heightPixels;
         mCamera = new GLViewport(width, height, METERS_TO_SHOW_X, METERS_TO_SHOW_Y);
 
-        mPlayer = new GLSpaceship(mWorldWidth/2, mWorldHeight/2);
+        mPlayer = new GLSpaceship(this, mWorldWidth/2, mWorldHeight/2);
         GLBorder border = new GLBorder(mWorldWidth, mWorldHeight);
 
         mGameObjects.add(mPlayer);
