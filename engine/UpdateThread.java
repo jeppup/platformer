@@ -33,6 +33,12 @@ public class UpdateThread extends Thread {
                 waitUntilResumed();
             }
             mEngine.update(mTimer.onEnterFrame());
+            try
+            {
+                sleep(50);
+            }
+            catch (InterruptedException ex){}
+
         }
     }
 

@@ -11,15 +11,8 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.example.jesper.platformer.engine.GameEngine;
-import com.example.jesper.platformer.engine.GameView;
 import com.example.jesper.platformer.engine.IGameView;
-import com.example.jesper.platformer.inputs.Accelerometor;
-import com.example.jesper.platformer.inputs.CompositeControl;
-import com.example.jesper.platformer.inputs.Gamepad;
-import com.example.jesper.platformer.inputs.InputManager;
-import com.example.jesper.platformer.inputs.VirtualGamepad;
 import com.example.jesper.platformer.inputs.GamepadListener;
-import com.example.jesper.platformer.inputs.VirtualJoystick;
 
 public class MainActivity extends AppCompatActivity implements android.hardware.input.InputManager.InputDeviceListener{
     IGameView mGameView = null;

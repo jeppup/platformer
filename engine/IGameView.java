@@ -1,7 +1,6 @@
 package com.example.jesper.platformer.engine;
 
-import com.example.jesper.platformer.Viewport;
-import com.example.jesper.platformer.gameobjects.GameObject;
+import com.example.jesper.platformer.GL.GLGameObject;
 
 import java.util.ArrayList;
 
@@ -11,7 +10,5 @@ import java.util.ArrayList;
 
 public interface IGameView {
 
-    void setGameObjects(ArrayList<GameObject> gameObjects);
-    void render();
-    Viewport createViewPort(float metersToShowX, float metersToShowY, float scaleFactor);
+    void setGameObjects(ArrayList<GLGameObject> gameObjects);
 }
