@@ -39,7 +39,6 @@ public class GameEngine {
     public final static Random r = new Random();
 
     public InputManager mControl = null;
-    public SoundManager mSoundManager = null;
     public GLSpaceship mPlayer = null;
     GLViewport mCamera = null;
 
@@ -50,7 +49,6 @@ public class GameEngine {
         mActivity = activity;
         mControl = new NullInput();
         mConfig = new Config(activity);
-        mSoundManager = new SoundManager(mActivity);
         mGameView = gameView;
         //mCamera = mGameView.createViewPort(mConfig.GW_METERS_TO_SHOW_X, mConfig.GW_METERS_TO_SHOW_Y, mConfig.GW_SCALE_FACTOR);
         initGame();

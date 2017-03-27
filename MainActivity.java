@@ -38,9 +38,9 @@ public class MainActivity extends AppCompatActivity implements android.hardware.
 
         CompositeControl control = new CompositeControl(
                 //new VirtualGamepad(findViewById(R.id.keypad)),
-               // new Gamepad(this),
-                new VirtualJoystick(findViewById(R.id.virtual_joystick))
-                //new Accelerometor(this)
+                new Gamepad(this),
+                new VirtualJoystick(findViewById(R.id.virtual_joystick)),
+                new Accelerometor(this)
         );
         mGameEngine.setInputManager(control);
 
